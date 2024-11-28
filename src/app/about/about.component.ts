@@ -23,7 +23,7 @@ export class AboutComponent {
   }
 
   team = [
-    { name: 'Student 1', id: '323016303', photo: 'assets/s1.jpg' },
-    { name: 'Student 2', id: '000000000', photo: 'assets/s2.png' },
+    { name: 'Khader Jeries', id: '323016303', photo: 'assets/s1.jpg' },
+    { name: 'Ali Assadi', id: '325466894', photo: 'assets/s2.png' },
   ];
 }

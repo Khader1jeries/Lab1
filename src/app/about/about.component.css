@@ -25,11 +25,12 @@ button {
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  background-color: #007bff;
+  background-color: gray;
   color: white;
 }
 
 button:hover {
-  background-color: #0056b3;
+  transition: 0.5s;
+  background-color: wheat;
 }
 
