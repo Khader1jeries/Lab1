@@ -1,7 +1,8 @@
 /* Center alignment and styles for the about section */
 .about {
   text-align: center;
-  margin-top: 80px;
+  background: wheat;
+  height: 800px;
 }
 
 /* Styles for the profile section */
@@ -32,12 +33,3 @@ button:hover {
   background-color: #0056b3;
 }
 
-/* Button styling for dark mode */
-body.dark-mode button {
-  background-color: #444;
-  color: white;
-}
-
-body.dark-mode button:hover {
-  background-color: #666;
-}
