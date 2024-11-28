@@ -1,0 +1,11 @@
+<div class="about">
+  <h1>About the Project</h1>
+  <p>This project was created by:</p>
+  <div class="profiles">
+    <div *ngFor="let person of team">
+      <img [src]="person.photo" alt="Profile picture" />
+      <p>{{ person.name }}</p>
+      <p>{{ person.id }}</p>
+    </div>
+  </div>
+</div>
