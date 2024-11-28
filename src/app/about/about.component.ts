@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Renderer2 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -10,15 +10,21 @@ import { CommonModule } from '@angular/common';
 })
 export class AboutComponent {
   team = [
-    { name: 'Student 1', id: '323016303', photo: 'assets/student1.jpg' },
+    { name: 'Student 1', id: '323016303', photo: 'assets/s1.jpg' },
     { name: 'Student 2', id: '000000000', photo: 'assets/s2.png' },
   ];
 
   darkTheme = false;
 
+  constructor(private renderer: Renderer2) {}
+
   toggleTheme() {
     this.darkTheme = !this.darkTheme;
-    document.body.style.backgroundColor = this.darkTheme ? '#333' : '#fff';
-    document.body.style.color = this.darkTheme ? '#fff' : '#000';
+
+    if (this.darkTheme) {
+      this.renderer.addClass(document.body, 'dark-mode');
+    } else {
+      this.renderer.removeClass(document.body, 'dark-mode');
+    }
   }
 }
