@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-about',
@@ -9,21 +9,16 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./about.component.css'],
 })
 export class AboutComponent {
-  backgroundColor = 'white';
-  textColor = 'black';
-
-  toggleTheme() {
-    if (this.backgroundColor === 'white') {
-      this.backgroundColor = 'black';
-      this.textColor = 'white';
-    } else {
-      this.backgroundColor = 'white';
-      this.textColor = 'black';
-    }
-  }
-
-  team = [
-    { name: 'Khader Jeries', id: '323016303', photo: 'assets/s1.jpg' },
-    { name: 'Ali Assadi', id: '325466894', photo: 'assets/s2.png' },
+  products = [
+    { name: 'Product 1', description: 'first product', price: 20 },
+    { name: 'Product 2', description: 'second product', price: 25 },
+    { name: 'Product 3', description: 'third product', price: 15 },
+    { name: 'Product 4', description: 'forth product', price: 20 },
+    { name: 'Product 5', description: 'fifth product', price: 32 }
   ];
+
+  // Method to handle adding product to cart
+  addToCart(product: any): void {
+    alert(`${product.name} has been added to the cart!`);
+  }
 }

@@ -1,36 +1,25 @@
-/* Center alignment and styles for the about section */
-.about {
-  text-align: center;
-  background: wheat;
-  height: 800px;
+/* Minimal custom styling for the page */
+
+/* Card customization */
+.card {
+  border: 1px solid #ccc;
+  border-radius: 8px;
 }
 
-/* Styles for the profile section */
-.profiles {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
+.card h5 {
+  font-size: 18px;
 }
 
-/* Styles for the profile images */
-.profiles img {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
+.card button {
+  margin-top: 10px;
 }
-button {
-  margin: 20px 0;
-  padding: 10px 20px;
+
+/* Contact Us social buttons */
+.btn {
   font-size: 16px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  background-color: gray;
-  color: white;
+  padding: 10px 20px;
 }
 
-button:hover {
-  transition: 0.5s;
-  background-color: wheat;
+.btn i {
+  margin-right: 5px;
 }
-
