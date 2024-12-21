@@ -1,32 +1,37 @@
-<div class="container mt-5" style=" position: relative; top: 20px;">
-  <!-- Top 5 Products Section -->
-  <h2 class="text-center mb-4">Top 5 Products</h2>
-  <div class="row">
-    <div class="col-md-4 col-lg-2 mb-4" *ngFor="let product of products" style="position: relative; left: 112px;">
-      <div class="card h-100 text-center shadow-sm">
-        <div class="card-body">
-          <h5 class="card-title">{{ product.name }}</h5>
-          <p class="card-text">{{ product.description }}</p>
-          <p class="card-text"><strong>Price: {{ product.price }}</strong></p>
-          <button class="btn btn-primary" (click)="addToCart(product)">Add To Cart</button>
-        </div>
+<div class="about-us-container">
+  <section class="hero-section">
+    <div class="hero-content">
+      <h1>About Us</h1>
+      <p>
+        Welcome to our company! We are dedicated to delivering exceptional products and services tailored to your needs.
+      </p>
+    </div>
+  </section>
+
+  <section class="team-section">
+    <h2>Meet Our Team</h2>
+    <div class="team-grid">
+      <div class="team-member">
+        <img src="assets/s1.jpg" alt="Team Member">
+        <h3>Ali Assadi</h3>
+      </div>
+      <div class="team-member">
+        <img src="assets/s1.jpg" alt="Team Member">
+        <h3>Khader Jeryes</h3>
       </div>
     </div>
-  </div>
+  </section>
 
-  <!-- Contact Us Section -->
-  <div class="text-center mt-5">
-    <h3>Contact Us</h3>
-    <div class="mt-3">
-      <a href="#" class="btn btn-outline-primary mx-2">
-        <i class="fa fa-facebook"></i>
-      </a>
-      <a href="#" class="btn btn-outline-info mx-2">
-        <i class="fa fa-twitter"></i>
-      </a>
-      <a href="#" class="btn btn-outline-danger mx-2">
-        <i class="fa fa-instagram"></i>
-      </a>
-    </div>
-  </div>
+  <section class="mission-section">
+    <h2>Our Mission</h2>
+    <p>
+      Our mission is to innovate and lead with integrity, offering high-quality solutions that empower our clients and make a difference in the world.
+    </p>
+  </section>
+
+  <section class="contact-section">
+    <h2>Get in Touch</h2>
+    <p>If you have any questions or want to work with us, feel free to contact us!</p>
+    <button class="btn-primary">Contact Us</button>
+  </section>
 </div>

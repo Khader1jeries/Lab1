@@ -1,3 +1,4 @@
+/* Navbar Styles */
 .navbar {
   position: fixed;
   top: 0;
@@ -18,8 +19,19 @@
 .navbar a {
   text-decoration: none;
   color: white;
+  padding: 8px 16px; /* Add padding for better clickable area */
+  border-radius: 4px; /* Rounded corners for a smoother feel */
+  transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition on hover */
 }
 
 .navbar a:hover {
-  color: #ff9800;
+  color: #ff9800; /* Hover color */
+  background-color: #444; /* Dark background on hover */
+}
+
+/* Active link styling */
+.navbar a.active {
+  color: #ffffff;
+  background-color: #ff9800; /* Highlight active link with orange background */
+  font-weight: bold; /* Bold text for active link */
 }

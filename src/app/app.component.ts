@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FooterComponent } from './footer/footer.component';
 import { NavbarComponent } from './navbar/navbar.component';
-import { AboutComponent } from './about/about.component';
+
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -11,9 +11,8 @@ import { AboutComponent } from './about/about.component';
     RouterModule,
     CommonModule,
     FooterComponent,
-    NavbarComponent,
-    AboutComponent,
-  ],
+    NavbarComponent
+],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
