@@ -8,3 +8,9 @@ export class Product {
     public technicalDetails: string
   ) {}
 }
+
+// product.model.ts
+export interface ProductInterFace {
+  name: string;
+  category: string;
+}
