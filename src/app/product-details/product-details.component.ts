@@ -11,11 +11,11 @@ import { CommonModule } from '@angular/common'; // Import CommonModule for *ngIf
   template: `
     <body>
     <div *ngIf="product; else notFound" class="product-details">
-      <h1 style="margin-top: 20px">{{ product?.name }}</h1>
-      <p class="description">{{ product?.description }}</p>
-      <p class="price"><strong>Price:</strong> {{ product?.price }}</p>
-      <p class="technical-details"><strong>Details:</strong> {{ product?.technicalDetails }}</p>
-      <img [src]="product?.image" alt="{{ product?.name }}" class="product-image" />
+      <h1 style="margin-top: 20px">{{ product.name }}</h1>
+      <p class="description">{{ product.description }}</p>
+      <p class="price"><strong>Price:</strong> {{ product.price }}</p>
+      <p class="technical-details"><strong>Details:</strong> {{ product.technicalDetails }}</p>
+      <img [src]="product.image" alt="{{ product.name }}" class="product-image" />
     </div>
     </body>
     <ng-template #notFound>
