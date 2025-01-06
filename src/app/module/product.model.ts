@@ -13,4 +13,5 @@ export class Product {
 export interface ProductInterFace {
   name: string;
   category: string;
+  imageUrl: string; // Add this line
 }

@@ -1,1 +1,24 @@
-/* You can add global styles to this file, and also import other style files */
+/* Ensure the navbar stays fixed at the top */
+app-navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000; /* Ensure the navbar is above other content */
+  }
+  
+  /* Main content area */
+  .main-content {
+    margin-top: 60px; /* Adjust this value based on the height of your navbar */
+    padding: 20px;
+    min-height: calc(100vh - 120px); /* Adjust based on navbar and footer height */
+  }
+  
+  /* Sticky footer */
+  app-footer {
+    position: sticky;
+    bottom: 0;
+    width: 100%;
+    background: #333; /* Match your footer's background color */
+    z-index: 1000; /* Ensure the footer is above other content */
+    margin-top: auto; /* Push the footer to the bottom */
+  }

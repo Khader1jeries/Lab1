@@ -1,23 +1,37 @@
-// catalog.component.ts
 import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';  // Import CommonModule for common directives
 import { ProductInterFace } from '../module/product.model';
+import { SideCatComponent } from "../sidebar-cat/sidebar-cat.component";
 
 @Component({
   selector: 'app-catalog',
   templateUrl: './catalog.component.html',
   styleUrls: ['./catalog.component.css'],
   standalone: true,
-  imports: [CommonModule]  // Import CommonModule here
+  imports: [CommonModule, SideCatComponent] // Import CommonModule here
+  // Import CommonModule here
 })
 export class CatalogComponent implements OnInit {
   @Input() category: string = 'all';
   products: ProductInterFace[] = [
-    { name: 'Pizza 1', category: 'pizza' },
-    { name: 'Pizza 2', category: 'pizza' },
-    { name: 'Baget 1', category: 'baget' },
-    { name: 'Other 1', category: 'others' },
-    // add more products as needed
+    { name: 'anotherBurger', category: 'burger', imageUrl: 'assets/Catalog/anotherBurger.jpg' },
+    { name: 'ArabicSalad', category: 'others', imageUrl: 'assets/Catalog/ArabicSalad.jpg' },
+    { name: 'baget1', category: 'others', imageUrl: 'assets/Catalog/baget1.jpg' },
+    { name: 'Chicken Burger', category: 'burger', imageUrl: 'assets/Catalog/Chicken Burger.jpg' },
+    { name: 'classic burger', category: 'burger', imageUrl: 'assets/Catalog/classic burger.jpg' },
+    { name: 'ClassicPizza', category: 'pizza', imageUrl: 'assets/Catalog/ClassicPizza.jpg' },
+    { name: 'Diet1', category: 'others', imageUrl: 'assets/Catalog/Diet1.jpg' },
+    { name: 'diet2', category: 'others', imageUrl: 'assets/Catalog/diet2.jpg' },
+    { name: 'Diet3', category: 'others', imageUrl: 'assets/Catalog/Diet3.jpg' },
+    { name: 'fatosh', category: 'others', imageUrl: 'assets/Catalog/fatosh.jpg' },
+    { name: 'HomePizza', category: 'pizza', imageUrl: 'assets/Catalog/HomePizza.jpg' },
+    { name: 'italicpizza', category: 'pizza', imageUrl: 'assets/Catalog/italicpizza.jpg' },
+    { name: 'Napilion Pizza', category: 'pizza', imageUrl: 'assets/Catalog/Napilion Pizza.jpg' },
+    { name: 'shawrma', category: 'others', imageUrl: 'assets/Catalog/shawrma.jpg' },
+    { name: 'tabola', category: 'others', imageUrl: 'assets/Catalog/tabola.jpg' },
+    { name: 'Taco', category: 'others', imageUrl: 'assets/Catalog/Taco.jpg' },
+    { name: 'tortia', category: 'others', imageUrl: 'assets/Catalog/tortia.jpg' },
+    { name: 'Yet Another Burger', category: 'burger', imageUrl: 'assets/Catalog/Yet Another Burger.jpg' },
   ];
   filteredProducts: ProductInterFace[] = [];
 

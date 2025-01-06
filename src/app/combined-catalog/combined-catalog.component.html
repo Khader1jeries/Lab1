@@ -1,12 +1,13 @@
-<body><!-- combined-catalog.component.html -->
+<!-- combined-catalog.component.html -->
 <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-3">
-        <app-sidebar-cat (categorySelected)="onCategorySelected($event)" style="position: relative; top: 250px;"></app-sidebar-cat>
-      </div>
-      <div class="col-md-9">
-        <app-catalog [category]="selectedCategory"></app-catalog>
-      </div>
+  <div class="row">
+    <!-- Sidebar -->
+    <div class="col-md-3">
+      <app-sidebar-cat (categorySelected)="onCategorySelected($event)"></app-sidebar-cat>
+    </div>
+    <!-- Catalog -->
+    <div class="col-md-9">
+      <app-catalog [category]="selectedCategory"></app-catalog>
     </div>
   </div>
-</body>  
+</div>

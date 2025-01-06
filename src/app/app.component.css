@@ -1,0 +1,15 @@
+/* app.component.css */
+.app-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Ensure the container takes at least the full viewport height */
+  }
+  
+  .main-content {
+    flex: 1; /* Allow the main content to grow and take up remaining space */
+    padding: 20px; /* Add some padding for better spacing */
+  }
+  
+  app-navbar, app-footer {
+    flex-shrink: 0; /* Prevent navbar and footer from shrinking */
+  }

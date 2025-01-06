@@ -1,4 +1,13 @@
 <!-- catalog.component.html -->
-<div *ngFor="let product of filteredProducts" class="product-item">
-  {{ product.name }}
+<div class="container">
+  <div class="row">
+    <div *ngFor="let product of filteredProducts" class="col-md-4 mb-4">
+      <div class="card bg-dark text-white border-light">
+        <img [src]="product.imageUrl" [alt]="product.name" class="card-img-top">
+        <div class="card-body">
+          <h5 class="card-title text-center">{{ product.name }}</h5>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
