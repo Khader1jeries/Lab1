@@ -1,1 +1,54 @@
-/* You can add global styles to this file, and also import other style files */
+@import 'bootstrap/dist/css/bootstrap.min.css';app-navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000; /* Ensure the navbar is above other content */
+  }
+  
+  /* Main content area */
+  .main-content {
+    margin-top: 60px; /* Adjust this value based on the height of your navbar */
+    padding: 20px;
+    min-height: calc(100vh - 120px); /* Adjust based on navbar and footer height */
+  }
+  
+  /* Sticky footer */
+  app-footer {
+    position: sticky;
+    bottom: 0;
+    width: 100%;
+    background: #333; /* Match your footer's background color */
+    z-index: 1000; /* Ensure the footer is above other content */
+    margin-top: auto; /* Push the footer to the bottom */
+  }
+  .bg-orange {
+    background-color: #ffae00;
+  }
+  
+  .btn-orange {
+    background-color: #ffae00;
+    border-color: #ffae00;
+    color: white;
+  }
+  
+  .btn-orange:hover {
+    background-color: #e67e3e;
+    border-color: #e67e3e;
+  }
+  
+  .btn-gray {
+    background-color: #6c757d;
+    border-color: #6c757d;
+    color: white;
+  }
+  
+  .btn-gray:hover {
+    background-color: #5a6268;
+    border-color: #545b62;
+  }
+  
+  .alert-danger {
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+    color: #721c24;
+  }

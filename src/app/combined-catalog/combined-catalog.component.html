@@ -1,0 +1,13 @@
+<!-- combined-catalog.component.html -->
+<div class="container-fluid">
+  <div class="row">
+    <!-- Sidebar -->
+    <div class="col-md-3">
+      <app-sidebar-cat (categorySelected)="onCategorySelected($event)"></app-sidebar-cat>
+    </div>
+    <!-- Catalog -->
+    <div class="col-md-9">
+      <app-catalog [category]="selectedCategory"></app-catalog>
+    </div>
+  </div>
+</div>

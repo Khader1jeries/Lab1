@@ -1,9 +1,20 @@
 <nav class="navbar">
   <ul>
-    <li><a href="#">Home</a></li>
-    <li><a href="#">Catalog</a></li>
-    <li><a href="#">Cart</a></li>
-    <li><a href="#">About us</a></li>
-    <li><a href="#">Login</a></li>
+    <li><a routerLink="/home" routerLinkActive="active">Home</a></li>
+    <li><a routerLink="/catalog" routerLinkActive="active">Catalog</a></li>
+    <li><a routerLink="/cart" routerLinkActive="active">Cart</a></li>
+    <li><a routerLink="/about" routerLinkActive="active">About Us</a></li>
+    <li *ngIf="isLoggedIn; else loginLink">
+      <a routerLink="/profile/user-details" routerLinkActive="active">Profile</a>
+    </li>
+    <ng-template #loginLink>
+      <li><a routerLink="/profile/login" routerLinkActive="active">Login</a></li>
+    </ng-template>
+    <li *ngIf="isLoggedIn">
+      <a (click)="logout()" style="cursor: pointer;">Logout</a>
+    </li>
+    <li *ngIf="!isLoggedIn">
+      <a routerLink="/profile/register" routerLinkActive="active">Register</a>
+    </li>
   </ul>
 </nav>
