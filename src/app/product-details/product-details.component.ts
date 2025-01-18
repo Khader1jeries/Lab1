@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ProductService } from '../module/product.service';
-import { Product } from '../module/product.model';
+import { ProductService } from '../model/product.service';
+import { Product } from '../model/product.model';
 import { CommonModule } from '@angular/common'; // Import CommonModule for *ngIf and other directives
 
 @Component({

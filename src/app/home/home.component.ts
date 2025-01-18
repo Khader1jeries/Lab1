@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';  // Import RouterModule
-import { ProductService } from '../module/product.service';
-import { Product } from '../module/product.model';
+import { ProductService } from '../model/product.service';
+import { Product } from '../model/product.model';
 
 @Component({
   selector: 'app-home',

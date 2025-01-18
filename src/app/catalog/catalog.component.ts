@@ -1,15 +1,13 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';  // Import CommonModule for common directives
-import { ProductInterFace } from '../module/product.model';
-import { SideCatComponent } from "../sidebar-cat/sidebar-cat.component";
+import { CommonModule } from '@angular/common';
+import { ProductInterFace } from '../model/product.model';
 
 @Component({
   selector: 'app-catalog',
   templateUrl: './catalog.component.html',
   styleUrls: ['./catalog.component.css'],
   standalone: true,
-  imports: [CommonModule, SideCatComponent] // Import CommonModule here
-  // Import CommonModule here
+  imports: [CommonModule] 
 })
 export class CatalogComponent implements OnInit {
   @Input() category: string = 'all';
