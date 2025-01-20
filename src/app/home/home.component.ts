@@ -1,15 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';  // Import RouterModule
+import { RouterModule } from '@angular/router'; // Import RouterModule
 import { ProductService } from '../model/product.service';
 import { Product } from '../model/product.model';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, RouterModule],  // Add RouterModule here
+  imports: [CommonModule, RouterModule], // Add RouterModule here
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  styleUrls: ['./home.component.css'],
 })
 export class HomeComponent {
   products: Product[] = [];

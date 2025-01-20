@@ -1,0 +1,73 @@
+<div class="container">
+  <!-- Filter and Search Section -->
+  <div class="row mb-3">
+    <div class="col-md-6">
+      <label for="categoryFilter">Sort by Category:</label>
+      <select
+        id="categoryFilter"
+        class="form-control"
+        (change)="filterByCategory($event)"
+      >
+        <option value="">All Categories</option>
+        <option value="Pizza">Pizza</option>
+        <option value="Burger">Burger</option>
+        <option value="Other">Other</option>
+      </select>
+    </div>
+    <div class="col-md-6">
+      <label for="searchById">Search by ID:</label>
+      <input
+        id="searchById"
+        type="number"
+        class="form-control"
+        placeholder="Enter Product ID"
+        [(ngModel)]="searchId"
+        (input)="searchById()"
+      />
+    </div>
+  </div>
+
+  <!-- Product List -->
+  <div class="list-group">
+    <button
+      type="button"
+      class="list-group-item list-group-item-action"
+      routerLink="../add-product"
+      routerLinkActive="active"
+    >
+      Add Product
+    </button>
+    <div class="row justify-content-center">
+      <div
+        class="col-md-4 col-lg-3 mb-4"
+        *ngFor="let product of filteredProducts"
+      >
+        <div class="card h-100 text-center shadow-sm">
+          <img
+            [src]="product.image"
+            alt="{{ product.name }}"
+            class="card-img-top"
+            style="height: 150px; object-fit: cover"
+          />
+          <div class="card-body">
+            <h5 class="card-title">{{ product.name }}</h5>
+            <p class="card-text">{{ product.description }}</p>
+            <p class="card-text">
+              <strong>Price: {{ product.price }}</strong>
+            </p>
+            <!-- Edit Details Button -->
+            <button class="btn btn-warning" (click)="editProduct(product)">
+              Edit Details
+            </button>
+            <a
+              [routerLink]="['/product-details', product.id]"
+              class="btn btn-info"
+              style="margin-top: 8px"
+              >View Details</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,121 @@
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header bg-warning text-white text-center">
+          <h3>Edit Product</h3>
+        </div>
+        <div class="card-body">
+          <form [formGroup]="editForm" (ngSubmit)="saveChanges()">
+            <div class="form-group">
+              <label for="name">Product Name</label>
+              <input
+                type="text"
+                class="form-control"
+                id="name"
+                formControlName="name"
+                required
+              />
+              <div
+                *ngIf="
+                  editForm.get('name')?.invalid && editForm.get('name')?.touched
+                "
+                class="text-danger"
+              >
+                Product Name is required.
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="description">Description</label>
+              <textarea
+                class="form-control"
+                id="description"
+                formControlName="description"
+                required
+              ></textarea>
+              <div
+                *ngIf="
+                  editForm.get('description')?.invalid &&
+                  editForm.get('description')?.touched
+                "
+                class="text-danger"
+              >
+                Description is required.
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="price">Price</label>
+              <input
+                type="number"
+                class="form-control"
+                id="price"
+                formControlName="price"
+                required
+              />
+              <div
+                *ngIf="
+                  editForm.get('price')?.invalid &&
+                  editForm.get('price')?.touched
+                "
+                class="text-danger"
+              >
+                Price must be a positive number.
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="image">Image URL</label>
+              <input
+                type="text"
+                class="form-control"
+                id="image"
+                formControlName="image"
+                required
+              />
+              <div
+                *ngIf="
+                  editForm.get('image')?.invalid &&
+                  editForm.get('image')?.touched
+                "
+                class="text-danger"
+              >
+                Image URL is required.
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="technicalDetails">Technical Details</label>
+              <textarea
+                class="form-control"
+                id="technicalDetails"
+                formControlName="technicalDetails"
+                required
+              ></textarea>
+              <div
+                *ngIf="
+                  editForm.get('technicalDetails')?.invalid &&
+                  editForm.get('technicalDetails')?.touched
+                "
+                class="text-danger"
+              >
+                Technical Details are required.
+              </div>
+            </div>
+            <button
+              type="submit"
+              class="btn btn-warning btn-block"
+              [disabled]="editForm.invalid"
+            >
+              Save Changes
+            </button>
+            <button
+              type="button"
+              class="btn btn-secondary btn-block mt-2"
+              (click)="cancel()"
+            >
+              Cancel
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

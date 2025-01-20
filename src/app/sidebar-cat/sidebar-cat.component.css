@@ -1,26 +1,26 @@
 .list-group {
-    margin: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
-  }
-  
-  .list-group-item {
-    border: none;
-    padding: 15px 20px;
-    font-size: 1.1rem;
-    color: #fff;
-    background-color: #333;
-    transition: background-color 0.3s ease, color 0.3s ease;
-  }
-  
-  .list-group-item:hover {
-    background-color: #007bff;
-    color: #fff;
-    cursor: pointer;
-  }
-  
-  .list-group-item.active {
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-  }
+  margin: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
+}
+
+.list-group-item {
+  border: none;
+  padding: 15px 20px;
+  font-size: 1.1rem;
+  color: #fff;
+  background-color: #333;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.list-group-item:hover {
+  background-color: #007bff;
+  color: #fff;
+  cursor: pointer;
+}
+
+.list-group-item.active {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+}

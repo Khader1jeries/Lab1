@@ -5,7 +5,8 @@ export class Product {
     public description: string,
     public price: number,
     public image: string,
-    public technicalDetails: string
+    public technicalDetails: string,
+    public category: string // New field for category
   ) {}
 }
 
