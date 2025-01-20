@@ -5,6 +5,7 @@ import { Product } from '../model/product.model';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms'; // For [(ngModel)]
 import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-manage-products',
   standalone: true,
@@ -22,31 +23,24 @@ export class ManageProductsComponent {
     this.filteredProducts = this.products; // Initialize filteredProducts with all products
   }
 
-  // Navigate to the edit page
+  // Delegates editing to ProductService
   editProduct(product: Product): void {
-    this.router.navigate(['/edit-product', product.id]);
+    this.productService.editProduct(this.router, product.id);
   }
 
-  // Filter by category
+  // Delegates category filtering to ProductService
   filterByCategory(event: Event): void {
     const selectedCategory = (event.target as HTMLSelectElement).value;
-    if (selectedCategory) {
-      this.filteredProducts = this.products.filter(
-        (product) => product.category === selectedCategory
-      );
-    } else {
-      this.filteredProducts = this.products; // Reset to all products
-    }
+    this.filteredProducts =
+      this.productService.filterByCategory(selectedCategory);
   }
 
-  // Search by ID
+  // Delegates searching by ID to ProductService
   searchById(): void {
     if (this.searchId) {
-      this.filteredProducts = this.products.filter(
-        (product) => product.id === this.searchId
-      );
+      this.filteredProducts = this.productService.searchById(this.searchId);
     } else {
-      this.filteredProducts = this.products; // Reset to all products
+      this.filteredProducts = this.productService.viewAllProducts(); // Reset to all products
     }
   }
 }

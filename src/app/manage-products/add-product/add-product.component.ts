@@ -8,7 +8,6 @@ import {
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { ProductService } from '../../model/product.service';
-import { Product } from '../../model/product.model';
 
 @Component({
   selector: 'app-add-product',
@@ -36,21 +35,23 @@ export class AddProductComponent {
       category: ['', Validators.required], // Add category field
     });
   }
+
   addProduct() {
     if (this.productForm.valid) {
-      const newProduct = new Product(
-        Date.now(), // Unique ID
-        this.productForm.value.name,
-        this.productForm.value.description,
-        this.productForm.value.price,
-        this.imagePreview || '', // Use imagePreview as the image path
-        this.productForm.value.technicalDetails,
-        this.productForm.value.category // Add this line
-      );
+      const newProduct = {
+        name: this.productForm.value.name,
+        description: this.productForm.value.description,
+        price: this.productForm.value.price,
+        image: this.imagePreview || '',
+        technicalDetails: this.productForm.value.technicalDetails,
+        category: this.productForm.value.category,
+      };
 
-      this.productService.addProduct(newProduct);
+      this.productService.addProduct(newProduct); // Call the service to add the product
       alert('Product added successfully!');
       this.productForm.reset();
+      this.imagePreview = null; // Reset the preview
+      this.backToProductList(); // Navigate back to the product list
     } else {
       this.errorMessage = 'Please fill out all required fields correctly.';
     }

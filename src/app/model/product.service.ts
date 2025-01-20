@@ -71,14 +71,55 @@ export class ProductService {
   getProductById(id: number): Product | undefined {
     return this.products.find((product) => product.id === id);
   }
-  addProduct(product: Product): void {
-    this.products.push(product);
+  addProduct(newProduct: any): void {
+    const product = new Product(
+      Date.now(), // Generate a unique ID
+      newProduct.name,
+      newProduct.description,
+      newProduct.price,
+      newProduct.image,
+      newProduct.technicalDetails,
+      newProduct.category
+    );
+
+    this.products.push(product); // Add the product to the array
+    localStorage.setItem('products', JSON.stringify(this.products)); // Optional: Persist data to localStorage
   }
+
   updateProduct(updatedProduct: Product): void {
     const index = this.products.findIndex((p) => p.id === updatedProduct.id);
     if (index > -1) {
       this.products[index] = updatedProduct;
       localStorage.setItem('products', JSON.stringify(this.products)); // Save to localStorage if used
     }
+  }
+
+  // Filter by category
+  filterByCategory(selectedCategory: string): Product[] {
+    if (selectedCategory) {
+      return this.products.filter(
+        (product) => product.category === selectedCategory
+      );
+    } else {
+      return this.products; // Return all products
+    }
+  }
+
+  // Search by ID
+  searchById(productId: number): Product[] {
+    if (productId) {
+      return this.products.filter((product) => product.id === productId);
+    } else {
+      return this.products; // Return all products
+    }
+  }
+
+  // View all products
+  viewAllProducts(): Product[] {
+    return this.products; // Return all products
+  }
+  // Navigate to the edit page
+  editProduct(router: any, productId: number): void {
+    router.navigate(['/edit-product', productId]);
   }
 }
