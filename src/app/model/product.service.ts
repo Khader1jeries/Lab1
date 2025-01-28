@@ -55,7 +55,7 @@ export class ProductService {
       16,
       'anotherBurger',
       '',
-      0,
+      35,
       'assets/Catalog/anotherBurger.jpg',
       '',
       'Burger'

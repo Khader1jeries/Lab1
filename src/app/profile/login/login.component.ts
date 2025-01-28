@@ -37,7 +37,6 @@ export class LoginComponent {
     const user = this.usersService.loginUser(email, password);
 
     if (user) {
-      // ניתוב לדף הנוכחי כדי לרענן את ה-navbar
       this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
         this.router.navigate(['/profile/user-details']);
       });
@@ -46,7 +45,6 @@ export class LoginComponent {
     }
   }
 
-  // פונקציה לניתוב לדף הרישום
   navigateToRegister(): void {
     this.router.navigate(['/profile/register']);
   }
