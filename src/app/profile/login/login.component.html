@@ -22,8 +22,8 @@
                 </div>
               </div>
               <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
-              <button type="submit" class="btn btn-orange btn-block" [disabled]="loginForm.invalid">Login</button>
-              <button type="button" class="btn btn-gray btn-block mt-2" (click)="navigateToRegister()">Register</button>
+              <button type="submit" class="btn btn-orange btn-block mt-3" [disabled]="loginForm.invalid">Login</button>
+              <button type="button" class="btn btn-gray btn-block ms-2 mt-3" (click)="navigateToRegister()">Register</button>
             </form>
           </div>
         </div>

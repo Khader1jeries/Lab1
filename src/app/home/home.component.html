@@ -12,7 +12,7 @@
       <p class="card-text">{{ product.description }}</p>
       <p class="card-text"><strong>Price: {{ product.price }}</strong></p>
       <button class="btn btn-primary" (click)="addToCart(product)">Add To Cart</button>
-      <a [routerLink]="['/product-details', product.id]" class="btn btn-info" style="margin-top: 8px;">View Details</a>
+      <a [routerLink]="['/product-details', product.id]" class="btn btn-info mt-2">View Details</a>
     </div>
   </div>
 </div>
