@@ -5,6 +5,7 @@ export class User {
     public fullName: string,
     public birthDate: Date,
     public gender: string,
-    public image: string
+    public image: string,
+    public isAdmin: boolean = false
   ) {}
 }

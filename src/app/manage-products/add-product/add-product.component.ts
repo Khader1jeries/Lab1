@@ -7,7 +7,7 @@ import {
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { ProductService } from '../../model/product.service';
+import { ProductsService } from '../../model/product.service';
 
 @Component({
   selector: 'app-add-product',
@@ -23,7 +23,7 @@ export class AddProductComponent {
 
   constructor(
     private fb: FormBuilder,
-    private productService: ProductService,
+    private productService: ProductsService,
     private router: Router // Inject Router
   ) {
     this.productForm = this.fb.group({

@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router'; // Import RouterModule
-import { ProductService } from '../model/product.service';
+import { ProductsService } from '../model/product.service';
 import { Product } from '../model/product.model';
 
 @Component({
@@ -14,9 +14,17 @@ import { Product } from '../model/product.model';
 export class HomeComponent {
   products: Product[] = [];
 
-  constructor(private productService: ProductService) {
-    this.products = this.productService.getProducts();
+  constructor(private productService: ProductsService) {
+    this.productService.getProducts().subscribe(
+      (data) => {
+        this.products = data;
+      },
+      (error) => {
+        console.error('Error fetching products:', error);
+      }
+    );
   }
+  
 
   // Method to add product to the cart
   addToCart(product: Product): void {

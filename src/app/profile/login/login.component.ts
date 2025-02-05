@@ -1,5 +1,10 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { Router } from '@angular/router';
 import { UsersService } from '../../model/users.service';
 import { CommonModule } from '@angular/common';
@@ -7,9 +12,9 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports:[ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.css'],
 })
 export class LoginComponent {
   loginForm: FormGroup;
@@ -22,7 +27,7 @@ export class LoginComponent {
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required]
+      password: ['', Validators.required],
     });
   }
 
@@ -34,15 +39,15 @@ export class LoginComponent {
     }
 
     const { email, password } = this.loginForm.value;
-    const user = this.usersService.loginUser(email, password);
 
-    if (user) {
-      this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+    this.usersService.loginUser(email, password).subscribe({
+      next: (user) => {
         this.router.navigate(['/profile/user-details']);
-      });
-    } else {
-      this.errorMessage = 'Invalid email or password.';
-    }
+      },
+      error: (err) => {
+        this.errorMessage = 'Invalid email or password.';
+      },
+    });
   }
 
   navigateToRegister(): void {

@@ -7,7 +7,7 @@ import {
 } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router'; // For routing
 import { CommonModule } from '@angular/common';
-import { ProductService } from '../../model/product.service';
+import { ProductsService } from '../../model/product.service';
 import { Product } from '../../model/product.model';
 
 @Component({
@@ -23,7 +23,7 @@ export class EditProductComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private productService: ProductService,
+    private productService: ProductsService,
     private route: ActivatedRoute,
     private router: Router
   ) {
@@ -39,32 +39,48 @@ export class EditProductComponent implements OnInit {
   ngOnInit(): void {
     // Get product ID from route params
     this.productId = Number(this.route.snapshot.paramMap.get('id'));
-
+  
     if (this.productId) {
       // Fetch product details and populate form
-      const product = this.productService.getProductById(this.productId);
-      if (product) {
-        this.editForm.patchValue(product);
-      } else {
-        alert('Product not found!');
-        this.router.navigate(['/manage-products']); // Navigate back if product is not found
-      }
+      this.productService.getProductById(this.productId).subscribe(
+        (product) => {
+          if (product) {
+            this.editForm.patchValue(product);
+          } else {
+            alert('Product not found!');
+            this.router.navigate(['/manage-products']); // Navigate back if product is not found
+          }
+        },
+        (error) => {
+          console.error('Error fetching product:', error);
+          alert('Error fetching product details.');
+        }
+      );
     }
   }
-
+  
   saveChanges(): void {
     if (this.editForm.valid && this.productId !== null) {
       const updatedProduct: Product = {
         id: this.productId,
         ...this.editForm.value,
       };
-      this.productService.updateProduct(updatedProduct);
-      alert('Product updated successfully!');
-      this.router.navigate(['/manage-products']); // Navigate back to the product list
+  
+      this.productService.updateProduct(this.productId, updatedProduct).subscribe(
+        () => {
+          alert('Product updated successfully!');
+          this.router.navigate(['/manage-products']); // Navigate back to the product list
+        },
+        (error) => {
+          console.error('Error updating product:', error);
+          alert('Failed to update product.');
+        }
+      );
     } else {
       alert('Please fill out all required fields.');
     }
   }
+  
 
   cancel(): void {
     this.router.navigate(['/manage-products']);

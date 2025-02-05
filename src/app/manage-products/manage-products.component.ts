@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { ProductService } from '../model/product.service';
+import { ProductsService } from '../model/product.service';
 import { Product } from '../model/product.model';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms'; // For [(ngModel)]
@@ -18,10 +18,13 @@ export class ManageProductsComponent {
   filteredProducts: Product[] = [];
   searchId: number | null = null;
 
-  constructor(private productService: ProductService, private router: Router) {
-    this.products = this.productService.getProducts();
-    this.filteredProducts = this.products; // Initialize filteredProducts with all products
+  constructor(private productService: ProductsService, private router: Router) {
+    this.productService.getProducts().subscribe((data) => {
+      this.products = data;
+      this.filteredProducts = data; // Initialize filteredProducts correctly
+    });
   }
+  
 
   // Delegates editing to ProductService
   editProduct(product: Product): void {
@@ -31,16 +34,21 @@ export class ManageProductsComponent {
   // Delegates category filtering to ProductService
   filterByCategory(event: Event): void {
     const selectedCategory = (event.target as HTMLSelectElement).value;
-    this.filteredProducts =
-      this.productService.filterByCategory(selectedCategory);
+    this.productService.filterByCategory(selectedCategory).subscribe((data) => {
+      this.filteredProducts = data;
+    });
   }
-
-  // Delegates searching by ID to ProductService
+  
   searchById(): void {
     if (this.searchId) {
-      this.filteredProducts = this.productService.searchById(this.searchId);
+      this.productService.searchById(this.searchId).subscribe((data) => {
+        this.filteredProducts = data;
+      });
     } else {
-      this.filteredProducts = this.productService.viewAllProducts(); // Reset to all products
+      this.productService.viewAllProducts().subscribe((data) => {
+        this.filteredProducts = data; // Reset to all products
+      });
     }
   }
+  
 }

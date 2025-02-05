@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router'; // Import Router
 import { UsersService } from '../model/users.service';
 
 @Component({
@@ -12,17 +12,24 @@ import { UsersService } from '../model/users.service';
 })
 export class NavbarComponent implements OnInit {
   isLoggedIn: boolean = false;
+  isAdmin: boolean = false;
+  userImage: string = '';
 
-  constructor(private usersService: UsersService) {}
+  constructor(private usersService: UsersService, private router: Router) {} // Inject Router
 
   ngOnInit(): void {
-    this.isLoggedIn = this.usersService.isLoggedIn(); // בדיקה אם המשתמש מחובר
+    this.usersService.isLoggedIn$.subscribe((loggedIn) => {
+      this.isLoggedIn = loggedIn;
+      if (loggedIn) {
+        const user = JSON.parse(sessionStorage.getItem('currentUser') || '{}');
+        this.isAdmin = user.isAdmin;
+        this.userImage = user.image;
+      }
+    });
   }
 
-  // פונקציה להתנתקות
-  logout(): void {
-    this.usersService.logout(); // התנתקות
-    this.isLoggedIn = false; // עדכון מצב התחברות
-    window.location.href = '/home'; // ניתוב לדף הבית
+  onLogout() {
+    this.usersService.logout();
+    this.router.navigate(['/home']); // Redirect to home after logout
   }
 }

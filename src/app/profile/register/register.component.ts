@@ -35,25 +35,27 @@ export class RegisterComponent {
       this.errorMessage = 'Please fill in all fields correctly.';
       return;
     }
-
+  
     const { email, password, fullName, birthDate, gender } = this.registerForm.value;
-
-    // בדיקה אם המשתמש כבר קיים
-    if (this.usersService.getUserByEmail(email)) {
-      this.errorMessage = 'User with this email already exists.';
-      return;
-    }
-
-    // המרת תאריך ל-Date
     const date = new Date(birthDate);
-
-    // רישום המשתמש
-    this.usersService.registerUser(email, password, fullName, date, gender);
-
-    // ניתוב לדף login לאחר רישום מוצלח
-    this.router.navigate(['/profile/login']);
+  
+    // בדיקה אם המשתמש כבר קיים
+    this.usersService.getUserByEmail(email).subscribe(existingUsers => {
+      if (existingUsers.length > 0) {
+        this.errorMessage = 'User with this email already exists.';
+        return;
+      }
+  
+      // יצירת אובייקט משתמש
+      const newUser = { email, password, fullName, birthDate: date.toISOString(), gender };
+  
+      // הוספת המשתמש למסד הנתונים
+      this.usersService.addUser(newUser).subscribe(() => {
+        this.router.navigate(['/profile/login']); // מעבר לדף ההתחברות לאחר רישום מוצלח
+      });
+    });
   }
-
+  
   // פונקציה לחזרה לדף login
   backToLogin(): void {
     this.router.navigate(['/profile/login']);

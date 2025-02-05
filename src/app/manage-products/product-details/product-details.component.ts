@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ProductService } from '../../model/product.service';
+import { ProductsService } from '../../model/product.service';
 import { Product } from '../../model/product.model';
 import { CommonModule } from '@angular/common'; // Import CommonModule for *ngIf and other directives
 
@@ -15,14 +15,21 @@ export class ProductDetailsComponent implements OnInit {
   product: Product | undefined;
 
   constructor(
-    private productService: ProductService,
+    private productService: ProductsService,
     private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
     const productId = this.route.snapshot.paramMap.get('id');
     if (productId) {
-      this.product = this.productService.getProductById(Number(productId));
+      this.productService.getProductById(Number(productId)).subscribe(
+        (productData: Product) => {
+          this.product = productData;
+        },
+        (error) => {
+          console.error('Error fetching product:', error);
+        }
+      );
     }
   }
 }

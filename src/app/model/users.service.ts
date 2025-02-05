@@ -1,60 +1,81 @@
 import { Injectable } from '@angular/core';
-import { User } from './user.model';
+import { HttpClient } from '@angular/common/http';
+import { BehaviorSubject, Observable, of, map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsersService {
-  private users: User[] = [
-    new User('user1@example.com', 'password1', 'User One', new Date('1990-01-01'), 'male', 'assets/male.jpg'),
-    new User('user2@example.com', 'password2', 'User Two', new Date('1995-05-05'), 'female', 'assets/female.png')
-  ];
+  private isLoggedInSubject = new BehaviorSubject<boolean>(this.hasUser());
+  isLoggedIn$ = this.isLoggedInSubject.asObservable();
 
-  private currentUser: User | null = null;
+  private isAdminSubject = new BehaviorSubject<boolean>(this.isAdminUser());
+  isAdmin$ = this.isAdminSubject.asObservable();
 
-  constructor() {}
+  private apiUrl = 'http://localhost:3000/users';
+  private currentUser: any = null;
 
-  // פונקציה להתחברות
-  loginUser(email: string, password: string): User | null {
-    const user = this.users.find(u => u.email === email && u.password === password);
-    if (user) {
-      this.currentUser = user;
-      sessionStorage.setItem('currentUser', JSON.stringify(user)); // שמירת המשתמש ב-session
-      return user;
-    }
-    return null;
+  constructor(private http: HttpClient) {}
+
+  getUsers(): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl);
   }
 
-  // פונקציה לבדיקה אם המשתמש מחובר
-  isLoggedIn(): boolean {
-    const userData = sessionStorage.getItem('currentUser');
-    if (userData) {
-      this.currentUser = JSON.parse(userData);
-      return true;
-    }
-    return false;
+  getUserByEmail(email: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}?email=${email}`);
   }
 
-  // פונקציה להתנתקות
-  logout(): void {
-    this.currentUser = null;
-    sessionStorage.removeItem('currentUser'); // מחיקת המשתמש מ-session
+  addUser(user: any): Observable<any> {
+    return this.http.post<any>(this.apiUrl, user);
   }
 
-  // פונקציה להחזרת המשתמש המחובר
-  getCurrentUser(): User | null {
+  updateUser(id: number, user: any): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/${id}`, user);
+  }
+
+  deleteUser(id: number): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}/${id}`);
+  }
+
+  getCurrentUser() {
     return this.currentUser;
   }
 
-  // פונקציה לרישום משתמש חדש
-  registerUser(email: string, password: string, fullName: string, birthDate: Date, gender: string): void {
-    const image = gender === 'male' ? 'assets/male.jpg' : 'assets/female.png';
-    const newUser = new User(email, password, fullName, birthDate, gender, image);
-    this.users.push(newUser);
+  setCurrentUser(user: any) {
+    this.currentUser = user;
   }
 
-  // פונקציה להחזרת משתמש לפי מייל
-  getUserByEmail(email: string): User | undefined {
-    return this.users.find(user => user.email === email);
+  private hasUser(): boolean {
+    return !!sessionStorage.getItem('currentUser');
+  }
+
+  private isAdminUser(): boolean {
+    const user = sessionStorage.getItem('currentUser');
+    return user ? JSON.parse(user).isAdmin : false;
+  }
+
+  loginUser(email: string, password: string): Observable<any> {
+    return this.http.get<any[]>(`${this.apiUrl}?email=${email}&password=${password}`).pipe(
+      map(users => {
+        if (users.length > 0) {
+          const user = users[0]; // Assuming emails are unique
+          sessionStorage.setItem('currentUser', JSON.stringify(user));
+  
+          this.isLoggedInSubject.next(true);
+          this.isAdminSubject.next(user.isAdmin);
+  
+          return user;
+        } else {
+          throw new Error('Invalid email or password');
+        }
+      })
+    );
+  }
+  
+
+  logout() {
+    sessionStorage.removeItem('currentUser');
+    this.isLoggedInSubject.next(false);
+    this.isAdminSubject.next(false);
   }
 }

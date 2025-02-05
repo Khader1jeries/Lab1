@@ -1,125 +1,55 @@
 import { Injectable } from '@angular/core';
-import { Product } from './product.model';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
-export class ProductService {
-  private products: Product[] = [
-    new Product(
-      1,
-      'Cheese Pizza',
-      'Cheese pizza with a crispy crust',
-      20,
-      'assets/Cheese-Pizza.jpg',
-      'Ingredients: Cheese, Tomato, Basil',
-      'Pizza'
-    ),
-    new Product(
-      2,
-      'Napilion Pizza',
-      'Delicious Napilion style pizza',
-      25,
-      'assets/Napilion Pizza.jpg',
-      'Ingredients: Cheese, Olives, Mushrooms',
-      'Pizza'
-    ),
-    new Product(
-      3,
-      'Home Made',
-      'Freshly made home pizza',
-      15,
-      'assets/HomeMade.jpg',
-      'Ingredients: Cheese, Tomato, Special sauce',
-      'Pizza'
-    ),
-    new Product(
-      4,
-      'Italic Pizza',
-      'Authentic Italic style pizza',
-      20,
-      'assets/italicpizza.jpg',
-      'Ingredients: Mozzarella, Tomato, Olive oil',
-      'Pizza'
-    ),
-    new Product(
-      5,
-      'American Style',
-      'Classic American pizza with a thick crust',
-      32,
-      'assets/HomePizza.jpg',
-      'Ingredients: Pepperoni, Mozzarella, Tomato sauce',
-      'Pizza'
-    ),
-    new Product(
-      16,
-      'anotherBurger',
-      '',
-      35,
-      'assets/Catalog/anotherBurger.jpg',
-      '',
-      'Burger'
-    ),
-  ];
+export class ProductsService {
+  private apiUrl = 'http://localhost:3000/products';
 
-  constructor() {}
+  constructor(private http: HttpClient) {}
 
-  getProducts(): Product[] {
-    return this.products;
+  // שליפת כל המוצרים
+  getProducts(): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl);
   }
 
-  getProductById(id: number): Product | undefined {
-    return this.products.find((product) => product.id === id);
-  }
-  addProduct(newProduct: any): void {
-    const product = new Product(
-      Date.now(), // Generate a unique ID
-      newProduct.name,
-      newProduct.description,
-      newProduct.price,
-      newProduct.image,
-      newProduct.technicalDetails,
-      newProduct.category
-    );
-
-    this.products.push(product); // Add the product to the array
-    localStorage.setItem('products', JSON.stringify(this.products)); // Optional: Persist data to localStorage
+  // שליפת מוצר לפי ID
+  getProductById(id: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/${id}`);
   }
 
-  updateProduct(updatedProduct: Product): void {
-    const index = this.products.findIndex((p) => p.id === updatedProduct.id);
-    if (index > -1) {
-      this.products[index] = updatedProduct;
-      localStorage.setItem('products', JSON.stringify(this.products)); // Save to localStorage if used
-    }
+  // הוספת מוצר
+  addProduct(product: any): Observable<any> {
+    return this.http.post<any>(this.apiUrl, product);
   }
 
-  // Filter by category
-  filterByCategory(selectedCategory: string): Product[] {
-    if (selectedCategory) {
-      return this.products.filter(
-        (product) => product.category === selectedCategory
-      );
-    } else {
-      return this.products; // Return all products
-    }
+  // עדכון מוצר
+  updateProduct(id: number, product: any): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/${id}`, product);
   }
 
-  // Search by ID
-  searchById(productId: number): Product[] {
-    if (productId) {
-      return this.products.filter((product) => product.id === productId);
-    } else {
-      return this.products; // Return all products
-    }
+    // Add this to ProductsService
+  editProduct(router: Router, id: number): void {
+    router.navigate(['/edit-product', id]); // Example navigation
   }
 
-  // View all products
-  viewAllProducts(): Product[] {
-    return this.products; // Return all products
+  filterByCategory(category: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}?category=${category}`);
   }
-  // Navigate to the edit page
-  editProduct(router: any, productId: number): void {
-    router.navigate(['/edit-product', productId]);
+
+  searchById(id: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}?id=${id}`);
+  }
+
+  viewAllProducts(): Observable<any[]> {
+    return this.getProducts();
+  }
+
+  // מחיקת מוצר
+  deleteProduct(id: number): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}/${id}`);
   }
 }
