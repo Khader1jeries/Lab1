@@ -28,7 +28,6 @@ export class RegisterComponent {
       gender: ['', Validators.required]
     });
   }
-
   // פונקציה לרישום
   register(): void {
     if (this.registerForm.invalid) {
