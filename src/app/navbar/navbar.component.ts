@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router'; // Import Router
 import { UsersService } from '../model/users.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-navbar',
@@ -10,20 +11,24 @@ import { UsersService } from '../model/users.service';
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css']
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent implements OnInit , OnDestroy {
   isLoggedIn: boolean = false;
   isAdmin: boolean = false;
   userImage: string = '';
+  private userSub!:Subscription;
 
   constructor(private usersService: UsersService, private router: Router) {} // Inject Router
 
   ngOnInit(): void {
-    this.usersService.isLoggedIn$.subscribe((loggedIn) => {
+    this.userSub = this.usersService.isLoggedIn$.subscribe((loggedIn) => {
       this.isLoggedIn = loggedIn;
       if (loggedIn) {
         const user = JSON.parse(sessionStorage.getItem('currentUser') || '{}');
         this.isAdmin = user.isAdmin;
         this.userImage = user.image;
+      } else {
+        this.isAdmin = false;
+        this.userImage = '';
       }
     });
   }
@@ -31,5 +36,8 @@ export class NavbarComponent implements OnInit {
   onLogout() {
     this.usersService.logout();
     this.router.navigate(['/home']); // Redirect to home after logout
+  }
+  ngOnDestroy(): void {
+      this.userSub.unsubscribe();
   }
 }

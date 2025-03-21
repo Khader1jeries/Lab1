@@ -6,11 +6,8 @@ import { BehaviorSubject, Observable, of, map } from 'rxjs';
   providedIn: 'root'
 })
 export class UsersService {
-  private isLoggedInSubject = new BehaviorSubject<boolean>(this.hasUser());
-  isLoggedIn$ = this.isLoggedInSubject.asObservable();
-
-  private isAdminSubject = new BehaviorSubject<boolean>(this.isAdminUser());
-  isAdmin$ = this.isAdminSubject.asObservable();
+  private isLoggedInSubject = new BehaviorSubject<boolean>(this.checkLoginStatus());
+  public isLoggedIn$ = this.isLoggedInSubject.asObservable();
 
   private apiUrl = 'http://localhost:3000/users';
   private currentUser: any = null;
@@ -62,7 +59,6 @@ export class UsersService {
           sessionStorage.setItem('currentUser', JSON.stringify(user));
   
           this.isLoggedInSubject.next(true);
-          this.isAdminSubject.next(user.isAdmin);
   
           return user;
         } else {
@@ -76,6 +72,8 @@ export class UsersService {
   logout() {
     sessionStorage.removeItem('currentUser');
     this.isLoggedInSubject.next(false);
-    this.isAdminSubject.next(false);
+  }
+  private checkLoginStatus(): boolean {
+    return !!sessionStorage.getItem('currentUser');
   }
 }

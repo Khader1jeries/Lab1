@@ -6,9 +6,9 @@ import { HomeComponent } from './home/home.component';
 import { ProductDetailsComponent } from './manage-products/product-details/product-details.component';
 import { CombinedCatalogComponent } from './combined-catalog/combined-catalog.component';
 import { ProfileComponent } from './profile/profile.component';
-import { LoginComponent } from './profile/login/login.component';
-import { RegisterComponent } from './profile/register/register.component';
-import { UserDetailsComponent } from './profile/user-details/user-details.component';
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
+import { UserDetailsComponent } from './user-details/user-details.component';
 import { ManageProductsComponent } from './manage-products/manage-products.component';
 import { AddProductComponent } from './manage-products/add-product/add-product.component';
 
