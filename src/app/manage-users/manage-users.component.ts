@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { AuthService } from '../auth/service/auth.service';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-manage-users',
