@@ -1,28 +1,28 @@
 import { Component } from '@angular/core';
-import {
-  FormBuilder,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { UsersService } from '../model/users.service';
 import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
+import { AuthService } from '../auth/service/auth.service';
+import { CartService } from '../services/cart.service';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent {
   loginForm: FormGroup;
   errorMessage: string = '';
+  successMessage: string = '';
 
   constructor(
     private fb: FormBuilder,
-    private usersService: UsersService,
+    private authService: AuthService,
+    private cartService: CartService,
     private router: Router
   ) {
     this.loginForm = this.fb.group({
@@ -31,26 +31,37 @@ export class LoginComponent {
     });
   }
 
-  // פונקציה להתחברות
   login(): void {
     if (this.loginForm.invalid) {
-      this.errorMessage = 'Please fill in all fields correctly.';
+      this.errorMessage = 'Please fill all fields correctly.';
       return;
     }
 
     const { email, password } = this.loginForm.value;
 
-    this.usersService.loginUser(email, password).subscribe({
-      next: (user) => {
-        this.router.navigate(['/profile/user-details']);
+    this.authService.login(email, password).subscribe({
+      next: (res) => {
+        localStorage.setItem('user', JSON.stringify(res.user));
+        this.successMessage = 'Login successful. Loading your cart...';
+
+        // Load the cart after login
+        this.cartService.getAllCartsByEmail(email).subscribe({
+          next: (cartItems) => {
+            // Save cart to localStorage or a dedicated cart state service
+            sessionStorage.setItem('cart', JSON.stringify(cartItems));
+            this.successMessage = 'Login successful. Redirecting...';
+            setTimeout(() => this.router.navigate(['/home']), 1500);
+          },
+          error: () => {
+            // If cart load fails, still proceed
+            this.successMessage = 'Login successful. Redirecting...';
+            setTimeout(() => this.router.navigate(['/home']), 1500);
+          },
+        });
       },
       error: (err) => {
-        this.errorMessage = 'Invalid email or password.';
+        this.errorMessage = err.error?.error || 'Login failed';
       },
     });
-  }
-
-  navigateToRegister(): void {
-    this.router.navigate(['/register']);
   }
 }

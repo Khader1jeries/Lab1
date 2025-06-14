@@ -1,43 +1,29 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule, Router } from '@angular/router'; // Import Router
-import { UsersService } from '../model/users.service';
-import { Subscription } from 'rxjs';
+import { RouterModule, Router } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
   imports: [CommonModule, RouterModule],
   templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.css']
+  styleUrls: ['./navbar.component.css'],
 })
-export class NavbarComponent implements OnInit , OnDestroy {
-  isLoggedIn: boolean = false;
-  isAdmin: boolean = false;
-  userImage: string = '';
-  private userSub!:Subscription;
-
-  constructor(private usersService: UsersService, private router: Router) {} // Inject Router
-
-  ngOnInit(): void {
-    this.userSub = this.usersService.isLoggedIn$.subscribe((loggedIn) => {
-      this.isLoggedIn = loggedIn;
-      if (loggedIn) {
-        const user = JSON.parse(sessionStorage.getItem('currentUser') || '{}');
-        this.isAdmin = user.isAdmin;
-        this.userImage = user.image;
-      } else {
-        this.isAdmin = false;
-        this.userImage = '';
-      }
-    });
+export class NavbarComponent {
+  get isLoggedIn(): boolean {
+    return !!localStorage.getItem('user');
   }
 
-  onLogout() {
-    this.usersService.logout();
-    this.router.navigate(['/home']); // Redirect to home after logout
+  get isAdmin(): boolean {
+    const user = localStorage.getItem('user');
+    return user ? JSON.parse(user).role === 'admin' : false;
   }
-  ngOnDestroy(): void {
-      this.userSub.unsubscribe();
+
+  logout(): void {
+    localStorage.removeItem('user');
+    sessionStorage.removeItem('cart');
+    this.router.navigate(['/login']);
   }
+
+  constructor(private router: Router) {}
 }

@@ -1,20 +1,35 @@
 <div class="container mt-5">
-  <div class="card">
+  <div class="card shadow">
     <div class="card-header bg-orange text-white">
-      <h3>User Details</h3>
+      <h3>User Profile</h3>
     </div>
     <div class="card-body">
       <div class="text-center mb-4">
-        <img [src]="user?.image" alt="User Image" class="img-fluid rounded-circle" style="width: 150px; height: 150px;">
+        <img
+          [src]="user?.image || 'assets/default-user.png'"
+          alt="User Image"
+          class="img-fluid rounded-circle shadow"
+          style="width: 150px; height: 150px; object-fit: cover"
+        />
       </div>
-      <p *ngIf="user?.email"><strong>Email:</strong> {{ user?.email }}</p>
-      <p *ngIf="user?.fullName"><strong>Full Name:</strong> {{ user?.fullName }}</p>
-      <p *ngIf="user?.birthDate"><strong>Birth Date:</strong> {{ user?.birthDate | date:'dd/MM/yyyy' }}</p>
-      <p *ngIf="user?.gender"><strong>Gender:</strong> {{ user?.gender }}</p>
+      <p *ngIf="user?.email"><strong>Email:</strong> {{ user.email }}</p>
+      <p *ngIf="user?.username">
+        <strong>Username:</strong> {{ user.username }}
+      </p>
+      <p *ngIf="user?.fullName">
+        <strong>Full Name:</strong> {{ user.fullName }}
+      </p>
+      <p *ngIf="user?.birthDate">
+        <strong>Birth Date:</strong> {{ user.birthDate | date : "dd/MM/yyyy" }}
+      </p>
+      <p *ngIf="user?.gender"><strong>Gender:</strong> {{ user.gender }}</p>
 
-      <p><strong>Role:</strong> 
-        <span *ngIf="user?.isAdmin; else regularUser" class="text-danger">Admin</span>
-        <ng-template #regularUser><span>User</span></ng-template>
+      <p>
+        <strong>Role:</strong>
+        <span *ngIf="user?.role === 'admin'; else normal" class="text-danger"
+          >Admin</span
+        >
+        <ng-template #normal><span>User</span></ng-template>
       </p>
     </div>
   </div>

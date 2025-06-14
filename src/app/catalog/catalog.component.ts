@@ -1,51 +1,173 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ProductInterFace } from '../model/product.model';
+import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
+import { ProductsService } from '../services/product.service';
+import { CartService } from '../services/cart.service';
 
 @Component({
   selector: 'app-catalog',
+  standalone: true,
+  imports: [CommonModule, FormsModule],
   templateUrl: './catalog.component.html',
   styleUrls: ['./catalog.component.css'],
-  standalone: true,
-  imports: [CommonModule] 
 })
 export class CatalogComponent implements OnInit {
-  @Input() category: string = 'all';
-  products: ProductInterFace[] = [
-    { name: 'anotherBurger', category: 'burger', imageUrl: 'assets/Catalog/anotherBurger.jpg' },
-    { name: 'ArabicSalad', category: 'others', imageUrl: 'assets/Catalog/ArabicSalad.jpg' },
-    { name: 'baget1', category: 'others', imageUrl: 'assets/Catalog/baget1.jpg' },
-    { name: 'Chicken Burger', category: 'burger', imageUrl: 'assets/Catalog/Chicken Burger.jpg' },
-    { name: 'classic burger', category: 'burger', imageUrl: 'assets/Catalog/classic burger.jpg' },
-    { name: 'ClassicPizza', category: 'pizza', imageUrl: 'assets/Catalog/ClassicPizza.jpg' },
-    { name: 'Diet1', category: 'others', imageUrl: 'assets/Catalog/Diet1.jpg' },
-    { name: 'diet2', category: 'others', imageUrl: 'assets/Catalog/diet2.jpg' },
-    { name: 'Diet3', category: 'others', imageUrl: 'assets/Catalog/Diet3.jpg' },
-    { name: 'fatosh', category: 'others', imageUrl: 'assets/Catalog/fatosh.jpg' },
-    { name: 'HomePizza', category: 'pizza', imageUrl: 'assets/Catalog/HomePizza.jpg' },
-    { name: 'italicpizza', category: 'pizza', imageUrl: 'assets/Catalog/italicpizza.jpg' },
-    { name: 'Napilion Pizza', category: 'pizza', imageUrl: 'assets/Catalog/Napilion Pizza.jpg' },
-    { name: 'shawrma', category: 'others', imageUrl: 'assets/Catalog/shawrma.jpg' },
-    { name: 'tabola', category: 'others', imageUrl: 'assets/Catalog/tabola.jpg' },
-    { name: 'Taco', category: 'others', imageUrl: 'assets/Catalog/Taco.jpg' },
-    { name: 'tortia', category: 'others', imageUrl: 'assets/Catalog/tortia.jpg' },
-    { name: 'Yet Another Burger', category: 'burger', imageUrl: 'assets/Catalog/Yet Another Burger.jpg' },
-  ];
-  filteredProducts: ProductInterFace[] = [];
+  products: any[] = [];
+  filtered: any[] = [];
+  categories: string[] = [];
+  selectedCategory: string = 'All';
+  sortPopular: boolean = false;
 
-  ngOnInit() {
-    this.filterProducts();
+  sessionCart: any[] = [];
+
+  constructor(
+    private router: Router,
+    private productService: ProductsService,
+    private cartService: CartService
+  ) {}
+
+  ngOnInit(): void {
+    this.loadAllProducts();
+    this.loadSessionCart();
   }
 
-  ngOnChanges() {
-    this.filterProducts();
+  loadAllProducts(): void {
+    this.productService.getAllProducts().subscribe({
+      next: (data) => {
+        this.products = data;
+        this.filtered = [...data];
+        this.extractCategories(data);
+      },
+      error: () => alert('❌ Failed to load products'),
+    });
   }
 
-  filterProducts() {
-    if (this.category === 'all') {
-      this.filteredProducts = this.products;
+  extractCategories(data: any[]): void {
+    const unique = new Set(data.map((p) => p.category).filter((c) => !!c));
+    this.categories = Array.from(unique);
+  }
+
+  onCategoryChange(): void {
+    if (this.selectedCategory === 'All') {
+      this.filtered = [...this.products];
     } else {
-      this.filteredProducts = this.products.filter(p => p.category === this.category);
+      this.productService
+        .getProductsByCategory(this.selectedCategory)
+        .subscribe({
+          next: (data) => {
+            this.filtered = data;
+            if (this.sortPopular) {
+              this.filtered.sort(
+                (a, b) => (b.popularity || 0) - (a.popularity || 0)
+              );
+            }
+          },
+          error: () => alert('❌ Failed to load products by category'),
+        });
+      return;
     }
+
+    if (this.sortPopular) {
+      this.filtered.sort((a, b) => (b.popularity || 0) - (a.popularity || 0));
+    }
+  }
+
+  toggleSort(): void {
+    this.onCategoryChange();
+  }
+
+  loadSessionCart(): void {
+    const storedCart = sessionStorage.getItem('cart');
+    this.sessionCart = storedCart ? JSON.parse(storedCart) : [];
+  }
+
+  saveSessionCart(): void {
+    sessionStorage.setItem('cart', JSON.stringify(this.sessionCart));
+  }
+
+  addToCart(product: any): void {
+    if (product.quantity <= 0) {
+      alert('❌ This product is currently out of stock.');
+      return;
+    }
+
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    if (!user.email) {
+      alert('⚠️ Please login to add to cart.');
+      return;
+    }
+
+    // Correct: use _id (the Mongo ObjectId string)
+    const existing = this.sessionCart.find(
+      (item) => item.productId === product._id
+    );
+
+    if (existing) {
+      existing.quantity += 1;
+    } else {
+      this.sessionCart.push({
+        email: user.email,
+        productId: product._id, // <-- Use _id here
+        name: product.name,
+        price: product.price,
+        image: product.image,
+        quantity: 1,
+      });
+    }
+
+    this.saveSessionCart();
+    alert('✅ Product added to cart (session).');
+  }
+
+  // catalog.component.ts - Update buyNow method:
+  buyNow(product: any): void {
+    if (product.quantity <= 0) {
+      alert('❌ This product is currently out of stock.');
+      return;
+    }
+
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    if (!user.email) {
+      alert('⚠️ Please login to continue.');
+      return;
+    }
+
+    // Create temporary cart with just this product
+    const tempCart = [
+      {
+        productId: product._id,
+        quantity: 1,
+        name: product.name,
+        price: product.price,
+      },
+    ];
+
+    this.cartService.saveCart(user.email, tempCart).subscribe({
+      next: () => {
+        sessionStorage.removeItem('cart');
+        this.router.navigate(['/cart']);
+      },
+      error: (err) => {
+        console.error('Save error:', err);
+        alert('❌ Failed to save cart. Please try again.');
+      },
+    });
+  }
+
+  saveCartToDbAndNavigate(targetRoute: string): void {
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    if (!user.email) {
+      alert('⚠️ Please login to continue.');
+      return;
+    }
+
+    this.cartService.saveCart(user.email, this.sessionCart).subscribe({
+      next: () => {
+        sessionStorage.removeItem('cart');
+        this.router.navigate([targetRoute]);
+      },
+      error: () => alert('❌ Failed to save cart.'),
+    });
   }
 }

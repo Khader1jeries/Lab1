@@ -1,34 +1,19 @@
 <nav class="navbar">
-  <ul>
-    <li><a routerLink="/home" routerLinkActive="active">Home</a></li>
-    <li><a routerLink="/catalog" routerLinkActive="active">Catalog</a></li>
+  <div class="nav-left">
+    <a routerLink="/">Home</a>
+    <a *ngIf="isLoggedIn && !isAdmin" routerLink="/catalog">Catalog</a>
+    <a *ngIf="isLoggedIn && !isAdmin" routerLink="/cart">Cart</a>
+    <a *ngIf="isAdmin" routerLink="/manage-products">Manage Products</a>
+    <a *ngIf="isAdmin" routerLink="/manage-users">Manage Users</a>
+  </div>
 
-    <!-- הצגת ניהול מוצרים רק לאדמין -->
-    <li *ngIf="isAdmin">
-      <a routerLink="/manage-products" routerLinkActive="active">Manage Products</a>
-    </li>
+  <div class="nav-right">
+    <a *ngIf="!isLoggedIn" routerLink="/login">Login</a>
+    <a *ngIf="!isLoggedIn" routerLink="/register">Register</a>
 
-    <li><a routerLink="/cart" routerLinkActive="active">Cart</a></li>
-    <li><a routerLink="/about" routerLinkActive="active">About Us</a></li>
-
-    <li *ngIf="isLoggedIn; else loginLink">
-      <div class="dropdown">
-        <img [src]="userImage" alt="User Image" class="user-logo">
-        <div class="dropdown-content">
-          <a routerLink="/profile/user-details">Profile</a>
-          <a (click)="onLogout()" style="cursor: pointer">Logout</a>
-        </div>
-      </div>
-    </li>
-
-    <ng-template #loginLink>
-      <li>
-        <a routerLink="/profile/login" routerLinkActive="active">Login</a>
-      </li>
-    </ng-template>
-
-    <li *ngIf="!isLoggedIn">
-      <a routerLink="/profile/register" routerLinkActive="active">Register</a>
-    </li>
-  </ul>
+    <ng-container *ngIf="isLoggedIn">
+      <a routerLink="/profile">Profile</a>
+      <button (click)="logout()">Logout</button>
+    </ng-container>
+  </div>
 </nav>

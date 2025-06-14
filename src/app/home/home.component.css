@@ -1,157 +1,62 @@
-/* Global Styles */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  font-family: 'Roboto', sans-serif; /* Clean and modern font */
-  background-color: #f4f7fa; /* Light gray background for a fresh, airy feel */
-  color: #333; /* Dark gray text for better readability */
-  line-height: 1.6;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 811px;
-}
-
-/* Main container for layout */
 .container {
-  max-width: 1200px;
-  padding: 30px;
-  background-color: #ffffff; /* Clean white background for content */
-  border-radius: 12px; /* Rounded corners for a soft feel */
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-}
-
-/* Header */
-h2 {
-  font-size: 2rem;
-  text-align: center;
-  color: #959595;
-  margin-bottom: 40px;
-  font-weight: 600;
-}
-
-/* Product Cards */
-.row {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 20px;
+  padding-top: 20px;
 }
 
 .card {
-  background-color: #ffffff;
-  border-radius: 12px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border: none;
+  border-radius: 15px;
   overflow: hidden;
-  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1); /* Modern card shadow */
-  transition: transform 0.3s ease-in-out;
 }
 
 .card:hover {
-  transform: translateY(-10px); /* Hover effect to lift the card */
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
 }
 
-.card img {
-  width: 100%;
-  height: 180px;
-  object-fit: cover; /* Uniform image fit */
+.card-img-top {
+  border-bottom: 1px solid #f0f0f0;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
 }
 
 .card-body {
-  padding: 20px;
-  text-align: center;
+  background-color: #fff;
+  padding: 15px;
 }
 
-.card-body h5 {
-  font-size: 1.3rem;
-  margin-bottom: 10px;
+.card-title {
+  font-size: 1.1rem;
+  font-weight: 600;
   color: #333;
-  font-weight: 500;
 }
 
-.card-body p {
-  font-size: 1rem;
+.card-text {
+  font-size: 0.9rem;
   color: #555;
-  margin-bottom: 15px;
 }
 
-.card-body button {
-  padding: 10px 20px;
-  background-color: #6c757d; /* Gray color for button background */
-  color: #fff;
+.btn {
+  border-radius: 20px;
+  padding: 5px 15px;
+  font-size: 0.85rem;
+}
+
+.btn-success {
+  background-color: #28a745;
   border: none;
-  border-radius: 8px;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
 }
 
-.card-body button:hover {
-  background-color: #495057; /* Darker gray on hover */
+.btn-success:hover {
+  background-color: #218838;
 }
 
-/* Contact Us Section */
-.text-center {
-  text-align: center;
-  margin-top: 50px;
+.btn-outline-primary {
+  color: #007bff;
+  border-color: #007bff;
 }
 
-.text-center h3 {
-  font-size: 1.8rem;
-  margin-bottom: 30px;
-  color: #2d3e50;
-}
-
-.text-center .btn {
-  font-size: 1.2rem;
-  padding: 12px 24px;
-  background-color: #0263b7; /* Gray background for buttons */
-  color: white;
-  border-radius: 8px;
-  transition: background-color 0.3s ease, transform 0.3s ease;
-  margin: 0 10px;
-}
-
-.text-center .btn:hover {
-  background-color: #495057; /* Darker gray on hover */
-  transform: scale(1.05); /* Slight scale up on hover */
-}
-
-.text-center .btn i {
-  margin-right: 8px;
-}
-
-/* Responsiveness for Mobile */
-@media (max-width: 768px) {
-  .container {
-    padding: 20px;
-  }
-
-  h2 {
-    font-size: 1.8rem;
-  }
-
-  .card {
-    padding: 15px;
-  }
-
-  .card-body h5 {
-    font-size: 1.2rem;
-  }
-
-  .card-body p {
-    font-size: 0.9rem;
-  }
-
-  .card-body button {
-    font-size: 0.9rem;
-    padding: 8px 16px;
-  }
-
-  .text-center .btn {
-    font-size: 1rem;
-    padding: 10px 20px;
-  }
+.btn-outline-primary:hover {
+  background-color: #007bff;
+  color: #fff;
 }

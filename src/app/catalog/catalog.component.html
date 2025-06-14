@@ -1,13 +1,37 @@
-<!-- catalog.component.html -->
-<div class="container">
-  <div class="row">
-    <div *ngFor="let product of filteredProducts" class="col-md-4 mb-4">
-      <div class="card bg-dark text-white border-light">
-        <img [src]="product.imageUrl" [alt]="product.name" class="card-img-top">
-        <div class="card-body">
-          <h5 class="card-title text-center">{{ product.name }}</h5>
-        </div>
-      </div>
+<div class="catalog-container">
+  <h2>Product Catalog</h2>
+
+  <div class="controls">
+    <label>Category:</label>
+    <select [(ngModel)]="selectedCategory" (change)="onCategoryChange()">
+      <option value="All">All</option>
+      <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
+    </select>
+
+    <label>
+      <input
+        type="checkbox"
+        [(ngModel)]="sortPopular"
+        (change)="toggleSort()"
+      />
+      Sort by Popularity
+    </label>
+  </div>
+
+  <div class="product-grid">
+    <div class="product-card" *ngFor="let product of filtered">
+      <img [src]="product.image" alt="{{ product.name }}" />
+      <h3>{{ product.name }}</h3>
+      <p>{{ product.description }}</p>
+      <p><strong>Price:</strong> ${{ product.price }}</p>
+      <p><strong>In Stock:</strong> {{ product.quantity }}</p>
+
+      <button (click)="addToCart(product)" [disabled]="product.quantity <= 0">
+        Add to Cart
+      </button>
+      <button (click)="buyNow(product)" [disabled]="product.quantity <= 0">
+        Buy Now
+      </button>
     </div>
   </div>
 </div>

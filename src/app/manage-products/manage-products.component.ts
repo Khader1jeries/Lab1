@@ -1,54 +1,48 @@
-import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { ProductsService } from '../model/product.service';
-import { Product } from '../model/product.model';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms'; // For [(ngModel)]
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { ProductsService } from '../services/product.service';
 
 @Component({
   selector: 'app-manage-products',
   standalone: true,
-  imports: [RouterModule, CommonModule, FormsModule], // Include FormsModule for ngModel
+  imports: [CommonModule],
   templateUrl: './manage-products.component.html',
   styleUrls: ['./manage-products.component.css'],
 })
-export class ManageProductsComponent {
-  products: Product[] = [];
-  filteredProducts: Product[] = [];
-  searchId: number | null = null;
+export class ManageProductsComponent implements OnInit {
+  products: any[] = [];
 
-  constructor(private productService: ProductsService, private router: Router) {
-    this.productService.getProducts().subscribe((data) => {
-      this.products = data;
-      this.filteredProducts = data; // Initialize filteredProducts correctly
+  constructor(
+    private productService: ProductsService,
+    private router: Router
+  ) {}
+
+  ngOnInit(): void {
+    this.loadProducts();
+  }
+
+  loadProducts(): void {
+    this.productService.getAllProducts().subscribe({
+      next: (data) => (this.products = data),
+      error: () => alert('❌ Failed to load products'),
     });
   }
-  
 
-  // Delegates editing to ProductService
-  editProduct(product: Product): void {
-    this.productService.editProduct(this.router, product.id);
-  }
-
-  // Delegates category filtering to ProductService
-  filterByCategory(event: Event): void {
-    const selectedCategory = (event.target as HTMLSelectElement).value;
-    this.productService.filterByCategory(selectedCategory).subscribe((data) => {
-      this.filteredProducts = data;
-    });
-  }
-  
-  searchById(): void {
-    if (this.searchId) {
-      this.productService.searchById(this.searchId).subscribe((data) => {
-        this.filteredProducts = data;
-      });
-    } else {
-      this.productService.viewAllProducts().subscribe((data) => {
-        this.filteredProducts = data; // Reset to all products
+  deleteProduct(id: string): void {
+    if (confirm('Are you sure you want to delete this product?')) {
+      this.productService.deleteProduct(id).subscribe({
+        next: () => this.loadProducts(),
+        error: () => alert('❌ Failed to delete product'),
       });
     }
   }
-  
+
+  editProduct(product: any): void {
+    this.router.navigate(['/Products/updateProduct'], { state: { product } });
+  }
+
+  addProduct(): void {
+    this.router.navigate(['/Products/addProduct']);
+  }
 }

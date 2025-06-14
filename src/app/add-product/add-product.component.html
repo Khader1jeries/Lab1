@@ -1,0 +1,34 @@
+<div class="add-product-container">
+  <h2>Add New Product</h2>
+
+  <form [formGroup]="productForm" (ngSubmit)="addProduct()">
+    <label>Name:</label>
+    <input formControlName="name" type="text" />
+
+    <label>Description:</label>
+    <textarea formControlName="description"></textarea>
+
+    <label>Price:</label>
+    <input formControlName="price" type="number" />
+
+    <label>Quantity:</label>
+    <input formControlName="price" type="number" />
+
+    <label>Image URL:</label>
+    <input formControlName="image" type="text" />
+
+    <label>Technical Details:</label>
+    <textarea formControlName="technicalDetails"></textarea>
+
+    <label>Ingredients:</label>
+    <textarea formControlName="ingredients"></textarea>
+
+    <label>Category:</label>
+    <input formControlName="category" type="text" />
+
+    <button type="submit">Add Product</button>
+
+    <div class="success" *ngIf="successMessage">{{ successMessage }}</div>
+    <div class="error" *ngIf="errorMessage">{{ errorMessage }}</div>
+  </form>
+</div>

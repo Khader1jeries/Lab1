@@ -1,29 +1,38 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { UsersService } from '../model/users.service'; 
+import { UsersService } from '../model/users.service';
+import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-user-details',
-  standalone: true, 
-  imports: [CommonModule], 
+  standalone: true,
+  imports: [CommonModule, HttpClientModule],
   templateUrl: './user-details.component.html',
-  styleUrls: ['./user-details.component.css']
+  styleUrls: ['./user-details.component.css'],
 })
 export class UserDetailsComponent implements OnInit {
-  user: any; 
+  user: any;
 
   constructor(private usersService: UsersService) {}
 
   ngOnInit(): void {
-    const userData = sessionStorage.getItem('currentUser');
-    if (userData) {
-      this.user = JSON.parse(userData);
+    const storedUser = sessionStorage.getItem('currentUser');
+    if (storedUser) {
+      const parsed = JSON.parse(storedUser);
+      const userId = parsed._id;
 
-      // המרת תאריך מ-String ל-Date
-      this.user.birthDate = new Date(this.user.birthDate);
-    } else {
-      this.user = this.usersService.getCurrentUser();
+      // Fetch full user details from backend using ID
+      this.usersService.getUserById(userId).subscribe({
+        next: (userData) => {
+          this.user = userData;
+          if (this.user.birthDate) {
+            this.user.birthDate = new Date(this.user.birthDate);
+          }
+        },
+        error: (err) => {
+          console.error('Failed to fetch user:', err);
+        },
+      });
     }
   }
-  
 }
