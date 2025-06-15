@@ -1,10 +1,12 @@
 <nav class="navbar">
   <div class="nav-left">
-    <a routerLink="/">Home</a>
-    <a *ngIf="isLoggedIn && !isAdmin" routerLink="/catalog">Catalog</a>
-    <a *ngIf="isLoggedIn && !isAdmin" routerLink="/cart">Cart</a>
-    <a *ngIf="isAdmin" routerLink="/manage-products">Manage Products</a>
-    <a *ngIf="isAdmin" routerLink="/manage-users">Manage Users</a>
+    <a routerLink="/" (click)="navigate('/')">Home</a>
+    <a *ngIf="isLoggedIn && !isAdmin" (click)="navigate('/catalog')">Catalog</a>
+    <a *ngIf="isLoggedIn && !isAdmin" (click)="navigate('/cart')">Cart</a>
+    <a *ngIf="isAdmin" (click)="navigate('/manage-products')"
+      >Manage Products</a
+    >
+    <a *ngIf="isAdmin" (click)="navigate('/manage-users')">Manage Users</a>
   </div>
 
   <div class="nav-right">
@@ -12,7 +14,7 @@
     <a *ngIf="!isLoggedIn" routerLink="/register">Register</a>
 
     <ng-container *ngIf="isLoggedIn">
-      <a routerLink="/profile">Profile</a>
+      <a (click)="navigate('/profile')">Profile</a>
       <button (click)="logout()">Logout</button>
     </ng-container>
   </div>

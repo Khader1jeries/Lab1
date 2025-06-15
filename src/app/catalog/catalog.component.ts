@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ProductsService } from '../services/product.service';
+import { ProductsService, Product } from '../services/product.service';
 import { CartService } from '../services/cart.service';
 
 @Component({
@@ -13,13 +13,11 @@ import { CartService } from '../services/cart.service';
   styleUrls: ['./catalog.component.css'],
 })
 export class CatalogComponent implements OnInit {
-  products: any[] = [];
-  filtered: any[] = [];
+  products: Product[] = [];
+  filtered: Product[] = [];
   categories: string[] = [];
   selectedCategory: string = 'All';
   sortPopular: boolean = false;
-
-  sessionCart: any[] = [];
 
   constructor(
     private router: Router,
@@ -29,7 +27,6 @@ export class CatalogComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadAllProducts();
-    this.loadSessionCart();
   }
 
   loadAllProducts(): void {
@@ -43,9 +40,11 @@ export class CatalogComponent implements OnInit {
     });
   }
 
-  extractCategories(data: any[]): void {
-    const unique = new Set(data.map((p) => p.category).filter((c) => !!c));
-    this.categories = Array.from(unique);
+  extractCategories(data: Product[]): void {
+    const unique = new Set(data.map((p) => p.category));
+    this.categories = Array.from(unique).filter(
+      (c): c is string => typeof c === 'string'
+    );
   }
 
   onCategoryChange(): void {
@@ -77,16 +76,7 @@ export class CatalogComponent implements OnInit {
     this.onCategoryChange();
   }
 
-  loadSessionCart(): void {
-    const storedCart = sessionStorage.getItem('cart');
-    this.sessionCart = storedCart ? JSON.parse(storedCart) : [];
-  }
-
-  saveSessionCart(): void {
-    sessionStorage.setItem('cart', JSON.stringify(this.sessionCart));
-  }
-
-  addToCart(product: any): void {
+  addToCart(product: Product): void {
     if (product.quantity <= 0) {
       alert('❌ This product is currently out of stock.');
       return;
@@ -98,30 +88,13 @@ export class CatalogComponent implements OnInit {
       return;
     }
 
-    // Correct: use _id (the Mongo ObjectId string)
-    const existing = this.sessionCart.find(
-      (item) => item.productId === product._id
-    );
-
-    if (existing) {
-      existing.quantity += 1;
-    } else {
-      this.sessionCart.push({
-        email: user.email,
-        productId: product._id, // <-- Use _id here
-        name: product.name,
-        price: product.price,
-        image: product.image,
-        quantity: 1,
-      });
-    }
-
-    this.saveSessionCart();
-    alert('✅ Product added to cart (session).');
+    this.cartService.addToCart(product._id!, 1).subscribe({
+      next: () => alert('✅ Product added to your cart.'),
+      error: () => alert('❌ Failed to add to cart.'),
+    });
   }
 
-  // catalog.component.ts - Update buyNow method:
-  buyNow(product: any): void {
+  buyNow(product: Product): void {
     if (product.quantity <= 0) {
       alert('❌ This product is currently out of stock.');
       return;
@@ -133,41 +106,9 @@ export class CatalogComponent implements OnInit {
       return;
     }
 
-    // Create temporary cart with just this product
-    const tempCart = [
-      {
-        productId: product._id,
-        quantity: 1,
-        name: product.name,
-        price: product.price,
-      },
-    ];
-
-    this.cartService.saveCart(user.email, tempCart).subscribe({
-      next: () => {
-        sessionStorage.removeItem('cart');
-        this.router.navigate(['/cart']);
-      },
-      error: (err) => {
-        console.error('Save error:', err);
-        alert('❌ Failed to save cart. Please try again.');
-      },
-    });
-  }
-
-  saveCartToDbAndNavigate(targetRoute: string): void {
-    const user = JSON.parse(localStorage.getItem('user') || '{}');
-    if (!user.email) {
-      alert('⚠️ Please login to continue.');
-      return;
-    }
-
-    this.cartService.saveCart(user.email, this.sessionCart).subscribe({
-      next: () => {
-        sessionStorage.removeItem('cart');
-        this.router.navigate([targetRoute]);
-      },
-      error: () => alert('❌ Failed to save cart.'),
+    this.cartService.addToCart(product._id!, 1).subscribe({
+      next: () => this.router.navigate(['/cart']),
+      error: () => alert('❌ Failed to add to cart.'),
     });
   }
 }

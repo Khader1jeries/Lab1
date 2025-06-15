@@ -10,6 +10,8 @@ import { RouterModule, Router } from '@angular/router';
   styleUrls: ['./navbar.component.css'],
 })
 export class NavbarComponent {
+  constructor(private router: Router) {}
+
   get isLoggedIn(): boolean {
     return !!localStorage.getItem('user');
   }
@@ -21,9 +23,10 @@ export class NavbarComponent {
 
   logout(): void {
     localStorage.removeItem('user');
-    sessionStorage.removeItem('cart');
     this.router.navigate(['/login']);
   }
 
-  constructor(private router: Router) {}
+  navigate(target: string): void {
+    this.router.navigate([target]);
+  }
 }

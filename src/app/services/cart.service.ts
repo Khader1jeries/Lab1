@@ -2,22 +2,29 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
+interface CartItemDTO {
+  product: string; // MongoDB ObjectId
+  quantity: number;
+}
+
 @Injectable({
   providedIn: 'root',
 })
 export class CartService {
   private baseUrl = 'http://localhost:3000/api/carts';
+  private productsUrl = 'http://localhost:3000/api/Products';
 
   constructor(private http: HttpClient) {}
 
-  // Get full purchase history
+  /** 🧾 Get all paid/unpaid carts */
   getAllCartsByEmail(email: string): Observable<any[]> {
     return this.http.get<any[]>(`${this.baseUrl}/${email}`);
   }
 
-  // Update getActiveCart to properly type the response
+  /** 🛒 Get latest unpaid cart (flattened product data) */
   getActiveCart(email: string): Observable<{
     _id: string;
+    email: string;
     items: Array<{
       _id: string;
       productId: string;
@@ -25,41 +32,40 @@ export class CartService {
       price: number;
       name: string;
       image: string;
-      stockQuantity?: number;
+      stockQuantity: number;
     }>;
+    paid: boolean;
+    createdAt: string;
   }> {
     return this.http.get<any>(`${this.baseUrl}/cart/${email}`);
   }
 
-  // Save session cart (overwrite or create cart in DB)
-  saveCart(email: string, sessionItems: any[]): Observable<any> {
-    // Transform session items to match backend structure
-    const itemsToSave = sessionItems.map((item) => ({
-      product: item.productId, // Convert to ObjectId if needed
-      quantity: item.quantity,
-    }));
-
+  /** 💾 Overwrite full cart with items */
+  saveCart(email: string, items: CartItemDTO[]): Observable<any> {
     return this.http.post(`${this.baseUrl}/save-full-cart`, {
       email,
-      items: itemsToSave,
+      items,
     });
   }
 
-  // Add an item to cart (used in session-cart saving too)
-  addToCart(item: {
-    email: string;
-    productId: string;
-    quantity: number;
-  }): Observable<any> {
-    return this.http.post(`${this.baseUrl}/add`, item);
+  /** ➕ Add a single item to cart (or merge if exists) */
+  addToCart(productId: string, quantity: number): Observable<any> {
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    if (!user.email) throw new Error('User not logged in');
+
+    return this.http.post(`${this.baseUrl}/add`, {
+      email: user.email,
+      productId,
+      quantity,
+    });
   }
 
-  // Mark cart as paid
+  /** 💳 Mark unpaid cart as paid */
   markCartAsPaid(email: string): Observable<any> {
     return this.http.post(`${this.baseUrl}/cart/pay/${email}`, {});
   }
 
-  // Update item quantity
+  /** ✏️ Update quantity of item */
   updateItem(
     email: string,
     productId: string,
@@ -72,13 +78,15 @@ export class CartService {
     });
   }
 
-  // Remove item from cart
+  /** ❌ Remove item from cart */
   removeItem(email: string, productId: string): Observable<any> {
     return this.http.request('delete', `${this.baseUrl}/remove`, {
       body: { email, productId },
     });
   }
+
+  /** 📦 Load all products */
   getAllProducts(): Observable<any[]> {
-    return this.http.get<any[]>('http://localhost:3000/api/Products');
+    return this.http.get<any[]>(this.productsUrl);
   }
 }
