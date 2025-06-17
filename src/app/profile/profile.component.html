@@ -1,3 +1,14 @@
-<div class="container mt-5">
-    <router-outlet></router-outlet>
-  </div>
+<div class="profile-container" *ngIf="user; else errorBlock">
+  <h2>My Profile</h2>
+  <p><strong>Username:</strong> {{ user.username }}</p>
+  <p><strong>Full Name:</strong> {{ user.fullName || "Not provided" }}</p>
+  <p><strong>Email:</strong> {{ user.email }}</p>
+  <p><strong>Birth Date:</strong> {{ user.birthDate | date : "longDate" }}</p>
+  <p><strong>Gender:</strong> {{ user.gender }}</p>
+  <img *ngIf="user.image" [src]="user.image" alt="Profile Image" width="150" />
+  <button (click)="deleteUser()" class="delete-btn">Delete My Account</button>
+</div>
+
+<ng-template #errorBlock>
+  <p class="error">{{ errorMessage }}</p>
+</ng-template>

@@ -1,20 +1,21 @@
 <nav class="navbar">
-  <ul>
-    <li><a routerLink="/home" routerLinkActive="active">Home</a></li>
-    <li><a routerLink="/catalog" routerLinkActive="active">Catalog</a></li>
-    <li><a routerLink="/cart" routerLinkActive="active">Cart</a></li>
-    <li><a routerLink="/about" routerLinkActive="active">About Us</a></li>
-    <li *ngIf="isLoggedIn; else loginLink">
-      <a routerLink="/profile/user-details" routerLinkActive="active">Profile</a>
-    </li>
-    <ng-template #loginLink>
-      <li><a routerLink="/profile/login" routerLinkActive="active">Login</a></li>
-    </ng-template>
-    <li *ngIf="isLoggedIn">
-      <a (click)="logout()" style="cursor: pointer;">Logout</a>
-    </li>
-    <li *ngIf="!isLoggedIn">
-      <a routerLink="/profile/register" routerLinkActive="active">Register</a>
-    </li>
-  </ul>
+  <div class="nav-left">
+    <a routerLink="/" (click)="navigate('/')">Home</a>
+    <a *ngIf="isLoggedIn && !isAdmin" (click)="navigate('/catalog')">Catalog</a>
+    <a *ngIf="isLoggedIn && !isAdmin" (click)="navigate('/cart')">Cart</a>
+    <a *ngIf="isAdmin" (click)="navigate('/manage-products')"
+      >Manage Products</a
+    >
+    <a *ngIf="isAdmin" (click)="navigate('/manage-users')">Manage Users</a>
+  </div>
+
+  <div class="nav-right">
+    <a *ngIf="!isLoggedIn" routerLink="/login">Login</a>
+    <a *ngIf="!isLoggedIn" routerLink="/register">Register</a>
+
+    <ng-container *ngIf="isLoggedIn">
+      <a (click)="navigate('/profile')">Profile</a>
+      <button (click)="logout()">Logout</button>
+    </ng-container>
+  </div>
 </nav>

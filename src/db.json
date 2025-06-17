@@ -1,0 +1,80 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "email": "admin@example.com",
+      "password": "adminpass",
+      "fullName": "Admin User",
+      "birthDate": "1985-03-15",
+      "gender": "male",
+      "image": "assets/adminLogo.jpeg",
+      "isAdmin": true
+    },
+    {
+      "id": "2",
+      "email": "user1@example.com",
+      "password": "password1",
+      "fullName": "User One",
+      "birthDate": "1990-01-01",
+      "gender": "male",
+      "image": "assets/male.jpg",
+      "isAdmin": false
+    },
+    {
+      "id": "3",
+      "email": "user2@example.com",
+      "password": "password2",
+      "fullName": "User Two",
+      "birthDate": "1995-05-05",
+      "gender": "female",
+      "image": "assets/female.png",
+      "isAdmin": false
+    }
+  ],
+  "products": [
+    {
+      "id": "1",
+      "name": "Cheese Pizza",
+      "description": "Cheese pizza with a crispy crust",
+      "price": 25,
+      "image": "assets/Cheese-Pizza.jpg",
+      "technicalDetails": "50% Sales"
+    },
+    {
+      "id": "2",
+      "name": "Napilion Pizza",
+      "description": "Delicious Napilion style pizza",
+      "price": 25,
+      "image": "assets/Napilion Pizza.jpg",
+      "ingredients": "Cheese, Olives, Mushrooms",
+      "category": "Pizza"
+    },
+    {
+      "id": "3",
+      "name": "Home Made",
+      "description": "Freshly made home pizza",
+      "price": 15,
+      "image": "assets/HomeMade.jpg",
+      "ingredients": "Cheese, Tomato, Special sauce",
+      "category": "Pizza"
+    },
+    {
+      "id": "4",
+      "name": "Italic Pizza",
+      "description": "Authentic Italic style pizza",
+      "price": 20,
+      "image": "assets/italicpizza.jpg",
+      "ingredients": "Mozzarella, Tomato, Olive oil",
+      "category": "Pizza"
+    },
+    {
+      "id": "5",
+      "name": "American Style",
+      "description": "Classic American pizza with a thick crust",
+      "price": 32,
+      "image": "assets/HomePizza.jpg",
+      "ingredients": "Pepperoni, Mozzarella, Tomato sauce",
+      "category": "Pizza"
+    }
+  ]
+}

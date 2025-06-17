@@ -1,28 +1,32 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
-import { UsersService } from '../model/users.service';
+import { RouterModule, Router } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
   imports: [CommonModule, RouterModule],
   templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.css']
+  styleUrls: ['./navbar.component.css'],
 })
-export class NavbarComponent implements OnInit {
-  isLoggedIn: boolean = false;
+export class NavbarComponent {
+  constructor(private router: Router) {}
 
-  constructor(private usersService: UsersService) {}
-
-  ngOnInit(): void {
-    this.isLoggedIn = this.usersService.isLoggedIn(); // בדיקה אם המשתמש מחובר
+  get isLoggedIn(): boolean {
+    return !!localStorage.getItem('user');
   }
 
-  // פונקציה להתנתקות
+  get isAdmin(): boolean {
+    const user = localStorage.getItem('user');
+    return user ? JSON.parse(user).role === 'admin' : false;
+  }
+
   logout(): void {
-    this.usersService.logout(); // התנתקות
-    this.isLoggedIn = false; // עדכון מצב התחברות
-    window.location.href = '/home'; // ניתוב לדף הבית
+    localStorage.removeItem('user');
+    this.router.navigate(['/login']);
+  }
+
+  navigate(target: string): void {
+    this.router.navigate([target]);
   }
 }

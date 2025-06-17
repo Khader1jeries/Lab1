@@ -1,0 +1,19 @@
+<div class="manage-container">
+  <h2>Manage Products</h2>
+  <button (click)="addProduct()">➕ Add Product</button>
+
+  <div class="product-list">
+    <div class="product-card" *ngFor="let product of products">
+      <img [src]="product.image" alt="{{ product.name }}" />
+      <h3>{{ product.name }}</h3>
+      <p>{{ product.description }}</p>
+      <p><strong>Quantity:</strong> {{ product.quantity }}</p>
+      <p><strong>Price:</strong> ${{ product.price }}</p>
+      <p><strong>Category:</strong> {{ product.category }}</p>
+      <div class="buttons">
+        <button (click)="editProduct(product)">✏️ Edit</button>
+        <button (click)="deleteProduct(product.id)">🗑️ Delete</button>
+      </div>
+    </div>
+  </div>
+</div>

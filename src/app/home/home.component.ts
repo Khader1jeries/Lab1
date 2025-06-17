@@ -1,25 +1,27 @@
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';  // Import RouterModule
-import { ProductService } from '../model/product.service';
-import { Product } from '../model/product.model';
+import { RouterModule } from '@angular/router';
+import { ProductsService, Product } from '../services/product.service';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, RouterModule],  // Add RouterModule here
+  imports: [CommonModule, RouterModule],
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  styleUrls: ['./home.component.css'],
 })
-export class HomeComponent {
-  products: Product[] = [];
+export class HomeComponent implements OnInit {
+  popularProducts: Product[] = [];
 
-  constructor(private productService: ProductService) {
-    this.products = this.productService.getProducts();
+  get isLoggedIn(): boolean {
+    return !!localStorage.getItem('user');
   }
+  constructor(private productService: ProductsService) {}
 
-  // Method to add product to the cart
-  addToCart(product: Product): void {
-    alert(`${product.name} has been added to the cart!`);
+  ngOnInit(): void {
+    this.productService.getPopularProducts().subscribe({
+      next: (products) => (this.popularProducts = products),
+      error: () => alert('❌ Failed to load featured products'),
+    });
   }
 }

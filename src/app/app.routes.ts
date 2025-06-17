@@ -1,30 +1,42 @@
 import { Routes } from '@angular/router';
-import { CatalogComponent } from './catalog/catalog.component';
-import { AboutComponent } from './about/about.component';
-import { NotFoundComponent } from './notfound/notfound.component';
+
 import { HomeComponent } from './home/home.component';
-import { ProductDetailsComponent } from './product-details/product-details.component';
-import { CombinedCatalogComponent } from './combined-catalog/combined-catalog.component';
+import { CatalogComponent } from './catalog/catalog.component';
 import { ProfileComponent } from './profile/profile.component';
-import { LoginComponent } from './profile/login/login.component';
-import { RegisterComponent } from './profile/register/register.component';
-import { UserDetailsComponent } from './profile/user-details/user-details.component';
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
+import { NotFoundComponent } from './notfound/notfound.component';
+import { ManageProductsComponent } from './manage-products/manage-products.component';
+import { AddProductComponent } from './add-product/add-product.component';
+import { UpdateProductComponent } from './update-product/update-product.component';
+import { ManageUsersComponent } from './manage-users/manage-users.component';
+import { CartComponent } from './cart/cart.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
-  { path: 'product-details/:id', component: ProductDetailsComponent },
-  { path: 'catalog', component: CombinedCatalogComponent },
-  { path: 'about', component: AboutComponent },
-  { 
-    path: 'profile', 
-    component: ProfileComponent,
-    children: [
-      { path: '', redirectTo: 'login', pathMatch: 'full' },
-      { path: 'login', component: LoginComponent },
-      { path: 'register', component: RegisterComponent }, // ניתוב ל-RegisterComponent
-      { path: 'user-details', component: UserDetailsComponent }
-    ]
-  },
+  { path: 'catalog', component: CatalogComponent },
+
+  // 🛒 Products management and display
+  { path: 'Products', component: CatalogComponent },
+  { path: 'Products/showPopular', component: CatalogComponent },
+  { path: 'Products/addProduct', component: AddProductComponent },
+  { path: 'Products/updateProduct', component: UpdateProductComponent },
+  { path: 'Products/:category', component: CatalogComponent },
+
+  // 🔧 Admin
+  { path: 'manage-products', component: ManageProductsComponent },
+  { path: 'manage-users', component: ManageUsersComponent },
+
+  // 👤 User
+  { path: 'profile', component: ProfileComponent },
+  { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
+  { path: 'cart', component: CartComponent },
+
+  // 🛒 Cart (uncomment if implemented)
+  // { path: 'cart', component: CartComponent },
+
+  // 🔚 Not Found
   { path: '**', component: NotFoundComponent },
 ];

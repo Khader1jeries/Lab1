@@ -1,37 +1,33 @@
-/* Navbar Styles */
 .navbar {
-  position: fixed;
-  top: 0;
-  width: 100%;
-  background-color: #333;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #5c6bc0;
+  padding: 10px 20px;
   color: white;
-  display: flex;
-  justify-content: center;
-  padding: 10px 0;
-}
-
-.navbar ul {
-  list-style-type: none;
-  display: flex;
-  gap: 20px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
 .navbar a {
-  text-decoration: none;
   color: white;
-  padding: 8px 16px; /* Add padding for better clickable area */
-  border-radius: 4px; /* Rounded corners for a smoother feel */
-  transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition on hover */
+  margin-right: 15px;
+  text-decoration: none;
+  font-weight: bold;
 }
 
-.navbar a:hover {
-  color: #ff9800; /* Hover color */
-  background-color: #444; /* Dark background on hover */
+.navbar button {
+  background: #ef5350;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  cursor: pointer;
+  border-radius: 4px;
 }
 
-/* Active link styling */
-.navbar a.active {
-  color: #ffffff;
-  background-color: #ff9800; /* Highlight active link with orange background */
-  font-weight: bold; /* Bold text for active link */
+.navbar button:hover {
+  background: #d32f2f;
+}
+
+.nav-left a, .nav-right a {
+  margin-right: 10px;
 }

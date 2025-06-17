@@ -1,19 +1,18 @@
-<body>
-<div class="col-md-4 col-lg-2 mb-4" *ngFor="let product of products">
-  <div class="card h-100 text-center shadow-sm">
+<h2>Featured Products</h2>
+
+<div *ngIf="popularProducts.length; else noProducts" class="featured-container">
+  <div *ngFor="let product of popularProducts" class="product-card">
     <img
-      [src]="product.image"
-      alt="{{ product.name }}"
-      class="card-img-top"
-      style="height: 150px; object-fit: cover;"
+      [src]="product.image || 'assets/default-product.png'"
+      [alt]="product.name"
+      width="150"
     />
-    <div class="card-body">
-      <h5 class="card-title">{{ product.name }}</h5>
-      <p class="card-text">{{ product.description }}</p>
-      <p class="card-text"><strong>Price: {{ product.price }}</strong></p>
-      <button class="btn btn-primary" (click)="addToCart(product)">Add To Cart</button>
-      <a [routerLink]="['/product-details', product.id]" class="btn btn-info" style="margin-top: 8px;">View Details</a>
-    </div>
+    <h3>{{ product.name }}</h3>
+    <p>${{ product.price.toFixed(2) }}</p>
+    <button [routerLink]="['/catalog']" *ngIf="isLoggedIn">View</button>
   </div>
 </div>
-</body>
+
+<ng-template #noProducts>
+  <p>No products to show.</p>
+</ng-template>
