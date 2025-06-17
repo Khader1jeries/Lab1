@@ -13,6 +13,9 @@ import { ProductsService, Product } from '../services/product.service';
 export class HomeComponent implements OnInit {
   popularProducts: Product[] = [];
 
+  get isLoggedIn(): boolean {
+    return !!localStorage.getItem('user');
+  }
   constructor(private productService: ProductsService) {}
 
   ngOnInit(): void {
