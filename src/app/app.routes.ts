@@ -11,10 +11,12 @@ import { AddProductComponent } from './add-product/add-product.component';
 import { UpdateProductComponent } from './update-product/update-product.component';
 import { ManageUsersComponent } from './manage-users/manage-users.component';
 import { CartComponent } from './cart/cart.component';
-
+import { AboutComponent } from './about/about.component';
+import { ProductDetailsComponent } from './product-details/product-details.component';
 export const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
+  { path: 'about', component: AboutComponent },
   { path: 'catalog', component: CatalogComponent },
 
   // 🛒 Products management and display
@@ -33,9 +35,10 @@ export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'cart', component: CartComponent },
-
-  // 🛒 Cart (uncomment if implemented)
-  // { path: 'cart', component: CartComponent },
+  {
+    path: 'product/:id',
+    component: ProductDetailsComponent,
+  },
 
   // 🔚 Not Found
   { path: '**', component: NotFoundComponent },

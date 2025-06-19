@@ -9,7 +9,9 @@
     />
     <h3>{{ product.name }}</h3>
     <p>${{ product.price.toFixed(2) }}</p>
-    <button [routerLink]="['/catalog']" *ngIf="isLoggedIn">View</button>
+    <button [routerLink]="['/product', product._id]" *ngIf="isLoggedIn">
+      View
+    </button>
   </div>
 </div>
 

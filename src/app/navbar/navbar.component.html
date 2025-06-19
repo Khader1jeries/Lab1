@@ -1,6 +1,7 @@
 <nav class="navbar">
   <div class="nav-left">
     <a routerLink="/" (click)="navigate('/')">Home</a>
+    <a (click)="navigate('/about')">About Us</a>
     <a *ngIf="isLoggedIn && !isAdmin" (click)="navigate('/catalog')">Catalog</a>
     <a *ngIf="isLoggedIn && !isAdmin" (click)="navigate('/cart')">Cart</a>
     <a *ngIf="isAdmin" (click)="navigate('/manage-products')"

@@ -2,7 +2,13 @@
   class="cart-container"
   *ngIf="cart && !isLoading && !loadError; else loading"
 >
-  <h2>Your Shopping Cart</h2>
+  <!-- Cart Header with History Button -->
+  <div class="cart-header">
+    <h2>Your Shopping Cart</h2>
+    <button (click)="toggleHistory()" class="btn-history">
+      🧾 View Shopping History
+    </button>
+  </div>
 
   <!-- Empty Cart Message -->
   <div *ngIf="cart.items?.length === 0" class="empty-cart">
@@ -72,9 +78,9 @@
             <span *ngIf="item.invalidReason === 'exceeds_stock'">
               ⚠️ Only {{ item.stockQuantity }} available
             </span>
-            <span *ngIf="item.invalidReason === 'missing_product'">
-              ⚠️ Product unavailable
-            </span>
+            <span *ngIf="item.invalidReason === 'missing_product'"
+              >⚠️ Product unavailable</span
+            >
           </div>
         </td>
       </tr>
@@ -112,4 +118,32 @@
 <div *ngIf="loadError" class="error-state">
   <p>⚠️ {{ errorMessage || "Failed to load your cart" }}</p>
   <button (click)="loadCart()">Try Again</button>
+</div>
+
+<!-- Purchase History Popup -->
+<div class="history-popup" *ngIf="showHistory">
+  <div class="popup-content">
+    <button class="close-btn" (click)="showHistory = false">✖</button>
+    <h3>🧾 Purchase History</h3>
+    <div *ngFor="let pastCart of purchaseHistory" class="history-cart">
+      <p><strong>Date:</strong> {{ pastCart.createdAt | date : "medium" }}</p>
+      <table class="cart-table">
+        <thead>
+          <tr>
+            <th>Product</th>
+            <th>Qty</th>
+            <th>Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of pastCart.items">
+            <td>{{ item.name || item.productId }}</td>
+            <td>{{ item.quantity }}</td>
+            <td>${{ item.price?.toFixed(2) || "-" }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <hr />
+    </div>
+  </div>
 </div>

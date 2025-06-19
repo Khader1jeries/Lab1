@@ -1,0 +1,24 @@
+<div class="product-details" *ngIf="product">
+  <h2>{{ product.name }}</h2>
+  <img
+    [src]="product.image || 'assets/default-product.png'"
+    [alt]="product.name"
+    width="300"
+  />
+  <p><strong>Price:</strong> ${{ product.price.toFixed(2) }}</p>
+  <p>
+    <strong>Description:</strong>
+    {{ product.description || "No description available." }}
+  </p>
+  <p><strong>Category:</strong> {{ product.category }}</p>
+  <p><strong>In Stock:</strong> {{ product.quantity }}</p>
+
+  <div class="buttons">
+    <button (click)="goHome()">🏠 Back to Home</button>
+    <button (click)="addToCart()">🛒 Add to Cart & Go</button>
+  </div>
+</div>
+
+<div *ngIf="!product">
+  <p>Loading product details...</p>
+</div>
