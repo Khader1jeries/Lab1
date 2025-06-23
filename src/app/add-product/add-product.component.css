@@ -38,5 +38,7 @@ button {
 
 .error {
   color: red;
-  margin-top: 10px;
+  font-size: 0.9em;
+  margin-top: 4px;
 }
+

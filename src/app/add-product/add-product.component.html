@@ -14,6 +14,19 @@
     <label>Quantity:</label>
     <input formControlName="price" type="number" />
 
+    <label>Minimum Quantity:</label>
+    <input formControlName="minQuantity" type="number" min="1" />
+
+    <div
+      class="error"
+      *ngIf="
+        productForm.get('minQuantity')?.invalid &&
+        productForm.get('minQuantity')?.touched
+      "
+    >
+      ⚠️ Minimum quantity must be a positive integer greater than 0.
+    </div>
+
     <label>Image URL:</label>
     <input formControlName="image" type="text" />
 

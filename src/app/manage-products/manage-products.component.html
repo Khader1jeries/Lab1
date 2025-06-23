@@ -1,6 +1,16 @@
 <div class="manage-container">
   <h2>Manage Products</h2>
-  <button (click)="addProduct()">➕ Add Product</button>
+
+  <div class="search-bar">
+    <input
+      type="text"
+      placeholder="🔍 Search by Category"
+      [(ngModel)]="searchCategory"
+    />
+    <button (click)="searchByCategory()">Search</button>
+    <button (click)="loadProducts()">Reset</button>
+    <button (click)="addProduct()">➕ Add Product</button>
+  </div>
 
   <div class="product-list">
     <div class="product-card" *ngFor="let product of products">
@@ -10,6 +20,13 @@
       <p><strong>Quantity:</strong> {{ product.quantity }}</p>
       <p><strong>Price:</strong> ${{ product.price }}</p>
       <p><strong>Category:</strong> {{ product.category }}</p>
+
+      <!-- ✅ Warning message and update button if quantity < minQuantity -->
+      <div *ngIf="product.quantity < product.minQuantity" class="low-stock">
+        ⚠️ <strong>Stock is low</strong> (Minimum is {{ product.minQuantity }})
+        <button (click)="increaseQuantity(product)">Add 10</button>
+      </div>
+
       <div class="buttons">
         <button (click)="editProduct(product)">✏️ Edit</button>
         <button (click)="deleteProduct(product.id)">🗑️ Delete</button>

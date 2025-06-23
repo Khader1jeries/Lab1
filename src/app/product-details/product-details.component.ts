@@ -20,9 +20,14 @@ export class ProductDetailsComponent implements OnInit {
     private productService: ProductsService,
     private cartService: CartService
   ) {}
+  get isAdmin(): boolean {
+    const user = localStorage.getItem('user');
+    return user ? JSON.parse(user).role === 'admin' : false;
+  }
 
   ngOnInit(): void {
     const productId = this.route.snapshot.paramMap.get('id');
+
     if (productId) {
       this.productService.getProductById(productId).subscribe({
         next: (data) => (this.product = data),

@@ -37,6 +37,10 @@ export class UpdateProductComponent implements OnInit {
         product?.quantity || 0,
         [Validators.required, Validators.min(0)],
       ],
+      minQuantity: [
+        product?.minQuantity || 5,
+        [Validators.required, Validators.pattern('^[1-9][0-9]*$')],
+      ],
       image: [product?.image || ''],
       technicalDetails: [product?.technicalDetails || ''],
       ingredients: [product?.ingredients || ''],

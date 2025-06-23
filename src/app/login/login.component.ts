@@ -41,7 +41,7 @@ export class LoginComponent {
       next: (res) => {
         localStorage.setItem('user', JSON.stringify(res.user));
         this.successMessage = 'Login successful. Redirecting...';
-        setTimeout(() => this.router.navigate(['/home']), 1500);
+        setTimeout(() => this.router.navigate(['/profile']), 1500);
       },
       error: (err) => {
         this.errorMessage = err.error?.error || 'Login failed';

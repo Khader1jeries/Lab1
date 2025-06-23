@@ -15,7 +15,7 @@
 
   <div class="buttons">
     <button (click)="goHome()">🏠 Back to Home</button>
-    <button (click)="addToCart()">🛒 Add to Cart & Go</button>
+    <button *ngIf="!isAdmin" (click)="addToCart()">🛒 Add to Cart & Go</button>
   </div>
 </div>
 

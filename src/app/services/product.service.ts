@@ -31,7 +31,7 @@ export class ProductsService {
 
   /** 🗂️ Get products by category */
   getProductsByCategory(category: string): Observable<Product[]> {
-    return this.http.get<Product[]>(`${this.baseUrl}/${category}`);
+    return this.http.get<Product[]>(`${this.baseUrl}/category/${category}`);
   }
 
   /** 🔥 Get 5 random products */
@@ -47,6 +47,10 @@ export class ProductsService {
   /** ✏️ Update an existing product */
   updateProduct(product: Product): Observable<Product> {
     return this.http.put<Product>(`${this.baseUrl}/updateProduct`, product);
+  }
+
+  increaseProductQuantity(id: string) {
+    return this.http.put(`${this.baseUrl}/increase/${id}`, {});
   }
 
   /** ❌ Delete a product by its custom numeric ID */

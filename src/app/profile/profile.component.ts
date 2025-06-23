@@ -48,7 +48,7 @@ export class ProfileComponent implements OnInit {
         next: () => {
           alert('Account deleted successfully.');
           localStorage.removeItem('user');
-          this.router.navigate(['/register']);
+          this.router.navigate(['/login']);
         },
         error: (err) => {
           this.errorMessage = err.error?.error || 'Failed to delete account.';

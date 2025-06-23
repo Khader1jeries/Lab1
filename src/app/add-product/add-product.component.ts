@@ -34,6 +34,10 @@ export class AddProductComponent {
       technicalDetails: [''],
       ingredients: [''],
       quantity: [0, [Validators.required, Validators.min(0)]],
+      minQuantity: [
+        5, // default value
+        [Validators.required, Validators.pattern('^[1-9][0-9]*$')],
+      ],
       category: ['', Validators.required],
     });
   }
